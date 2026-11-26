@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, CalendarDays, Home, QrCode, UserRound } from "lucide-react";
+import { ArrowUpRight, BarChart3, CalendarDays, Home, LogOut, QrCode, UserRound } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
+import { DEMO_VIEWS } from "@/components/account-menu";
 import { Logo } from "@/components/ui/logo";
 import { cn } from "@/lib/utils";
 
@@ -91,6 +92,29 @@ export function MemberShell({ children }: { children: React.ReactNode }) {
               </div>
             ))}
           </dl>
+
+          {/* salida de la demo: cambiar de vista o cerrar sesión */}
+          <div className="mt-6 rounded-2xl border border-line bg-surface/70 p-2 backdrop-blur">
+            <p className="px-2.5 pb-1.5 pt-1 text-[10.5px] font-bold uppercase tracking-[0.14em] text-faint">Ver la demo como</p>
+            {DEMO_VIEWS.filter((v) => v.id !== "member").map((v) => (
+              <Link
+                key={v.id}
+                href={v.href}
+                className="flex items-center gap-3 rounded-xl px-2.5 py-2 text-[13.5px] font-bold text-fg-2 transition hover:bg-white/[0.05] hover:text-fg"
+              >
+                <v.icon className="size-4 text-muted" />
+                <span className="flex-1">{v.label}</span>
+                <ArrowUpRight className="size-3.5 text-faint" />
+              </Link>
+            ))}
+            <Link
+              href="/login"
+              className="mt-1 flex items-center gap-3 rounded-xl border-t border-line px-2.5 py-2 text-[13.5px] font-bold text-rose transition hover:bg-rose/[0.08]"
+            >
+              <LogOut className="size-4" />
+              Cerrar sesión
+            </Link>
+          </div>
         </aside>
 
         {/* dispositivo */}

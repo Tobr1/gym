@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Bell, ChevronsUpDown, Menu, Plus, Search, X, Zap } from "lucide-react";
+import { Bell, ChevronDown, ChevronsUpDown, Menu, Plus, Search, X, Zap } from "lucide-react";
+import { AccountMenu } from "@/components/account-menu";
 import { Logo } from "@/components/ui/logo";
 import { Avatar, ButtonLink, Kbd } from "@/components/ui/primitives";
 import { cn } from "@/lib/utils";
@@ -189,13 +190,19 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 <Bell className="size-[18px]" />
                 <span className="absolute right-2.5 top-2.5 size-2 rounded-full bg-lime ring-2 ring-ink" />
               </button>
-              <button className="flex items-center gap-2.5 rounded-xl py-1 pl-1 pr-2 transition hover:bg-white/5">
+              <AccountMenu
+                current="admin"
+                name="Carolina Vidal"
+                role="Administradora"
+                email="carolina@ironfactory.com.ar"
+              >
                 <Avatar i={12} size={34} />
                 <span className="hidden text-left leading-tight xl:block">
                   <span className="block text-[13px] font-bold text-fg">Carolina Vidal</span>
                   <span className="block text-[11px] text-muted">Administradora</span>
                 </span>
-              </button>
+                <ChevronDown className="hidden size-4 text-muted xl:block" />
+              </AccountMenu>
             </div>
           </div>
         </header>

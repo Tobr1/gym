@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Bell, ChevronDown, Plus, Search, Sparkles } from "lucide-react";
+import { AccountMenu } from "@/components/account-menu";
 import { Logo } from "@/components/ui/logo";
 import { Kbd } from "@/components/ui/primitives";
 import { SuperAdminMobileNav } from "@/components/superadmin/mobile-nav";
@@ -62,9 +63,12 @@ export default function SuperAdminLayout({ children }: LayoutProps<"/superadmin"
             <button className="flex h-10 shrink-0 items-center gap-2 whitespace-nowrap rounded-xl bg-lime px-3 text-[13px] font-bold text-lime-ink shadow-[0_8px_24px_-8px_rgb(181_245_74/0.6)] sm:px-4" aria-label="Alta de gimnasio">
               <Plus className="size-4" strokeWidth={2.6} /> <span className="hidden sm:inline">Alta de gimnasio</span>
             </button>
-            <span className="hidden size-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-lime to-emerald text-lime-ink sm:grid">
-              <Sparkles className="size-[18px]" />
-            </span>
+            <AccountMenu current="root" name="Equipo Pulso" role="Super Admin" email="root@pulso.app" className="shrink-0">
+              <span className="grid size-[34px] place-items-center rounded-xl bg-gradient-to-br from-lime to-emerald text-lime-ink">
+                <Sparkles className="size-[17px]" />
+              </span>
+              <ChevronDown className="hidden size-4 text-muted sm:block" />
+            </AccountMenu>
           </header>
           <main className="px-4 pb-10 pt-4 sm:px-7">{children}</main>
         </div>
