@@ -24,7 +24,7 @@ const NAV: Item[] = [
   { label: "Gimnasios", icon: Building2, href: "/superadmin/gimnasios", badge: "326" },
   { label: "Suscripciones", icon: BadgeDollarSign, href: "/superadmin/suscripciones" },
   { label: "Uso y métricas", icon: Activity, href: "#" },
-  { label: "Funciones habilitadas", icon: Flag, href: "#", badge: "4" },
+  { label: "Funciones", icon: Flag, href: "#", badge: "4" },
   { label: "Soporte", icon: LifeBuoy, href: "#", badge: "9" },
   { label: "Auditoría", icon: ScrollText, href: "#" },
 ];
