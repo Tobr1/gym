@@ -22,6 +22,7 @@ import { PageHeader } from "@/components/admin/shell";
 import { Button, Delta } from "@/components/ui/primitives";
 import { cn } from "@/lib/utils";
 import {
+  CLASS_OCCUPANCY,
   PERIODS,
   SCHEDULED,
   type CompareKey,
@@ -84,7 +85,7 @@ const LIBRARY: {
     key: "clases",
     label: "Clases",
     icon: CalendarDays,
-    metric: "84%",
+    metric: `${CLASS_OCCUPANCY}%`,
     caption: "ocupación",
     delta: 3.1,
     color: "var(--color-amber)",

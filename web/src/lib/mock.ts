@@ -24,9 +24,9 @@ export const MEMBERS: Member[] = [
   { id: "1044", name: "Valentina Ruiz", face: 4, plan: "Funcional + Pilates", status: "por-vencer", since: "ene 2025", lastCheckIn: "07:41", due: "27 nov", amount: 42000, attendance: 64, branch: "Sede Norte" },
   { id: "1045", name: "Joaquín Sosa", face: 3, plan: "Pase Libre", status: "activo", since: "jun 2022", lastCheckIn: "08:03", due: "15 dic", amount: 48900, attendance: 88, branch: "Sede Centro" },
   { id: "1046", name: "Camila Pereyra", face: 5, plan: "CrossTraining", status: "vencido", since: "oct 2024", lastCheckIn: "hace 9 d", due: "16 nov", amount: 44500, attendance: 31, branch: "Sede Parque" },
-  { id: "1047", name: "Mateo Fernández", face: 6, plan: "Musculación 3x", status: "activo", since: "feb 2025", lastCheckIn: "08:15", due: "08 dic", amount: 36500, attendance: 71, branch: "Sede Norte" },
+  { id: "1047", name: "Mateo Fernández", face: 6, plan: "Musculación 3x", status: "activo", since: "feb 2025", lastCheckIn: "08:15", due: "08 ene", amount: 36500, attendance: 71, branch: "Sede Norte" },
   { id: "1048", name: "Lucía Gómez", face: 7, plan: "Pilates Reformer", status: "congelado", since: "may 2023", lastCheckIn: "hace 21 d", due: "—", amount: 0, attendance: 0, branch: "Sede Centro" },
-  { id: "1049", name: "Benjamín Acosta", face: 8, plan: "Pase Libre", status: "activo", since: "sep 2024", lastCheckIn: "08:32", due: "19 dic", amount: 48900, attendance: 95, branch: "Sede Parque" },
+  { id: "1049", name: "Benjamín Acosta", face: 8, plan: "Pase Libre", status: "activo", since: "sep 2024", lastCheckIn: "08:32", due: "19 ene", amount: 48900, attendance: 95, branch: "Sede Parque" },
   { id: "1050", name: "Martina López", face: 9, plan: "Funcional + Pilates", status: "por-vencer", since: "jul 2025", lastCheckIn: "ayer", due: "28 nov", amount: 42000, attendance: 58, branch: "Sede Centro" },
   { id: "1051", name: "Nicolás Romero", face: 10, plan: "CrossTraining", status: "activo", since: "nov 2023", lastCheckIn: "08:47", due: "04 dic", amount: 44500, attendance: 83, branch: "Sede Norte" },
 ];

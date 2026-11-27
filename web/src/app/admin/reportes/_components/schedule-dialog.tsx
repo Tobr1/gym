@@ -67,6 +67,7 @@ export function ScheduleDialog({
       on: false,
     },
   ]);
+  const picked = to.filter((r) => r.on).length;
   const when = {
     Semanal: "Todos los lunes · 08:00",
     Mensual: "Día 1 de cada mes · 08:00",
@@ -230,10 +231,10 @@ export function ScheduleDialog({
             Cancelar
           </Button>
           <Button
-            disabled={!to.some((r) => r.on)}
+            disabled={!picked}
             onClick={() =>
               onDone(
-                `${freq} · ${format} · ${to.filter((r) => r.on).length} destinatarios`,
+                `${freq} · ${format} · ${picked} ${picked === 1 ? "destinatario" : "destinatarios"}`,
               )
             }
           >

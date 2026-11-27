@@ -808,14 +808,14 @@ export function BranchesCard({ d, i }: { d: TenantDetail; i: number }) {
   );
 }
 
-/* ══ Feature flags ═══════════════════════════════════════════ */
+/* ══ Funciones (feature flags) ═══════════════════════════════════════════ */
 
 export function FlagsCard({ d, i }: { d: TenantDetail; i: number }) {
   return (
     <article className="panel-flat stagger p-5" style={s(i)}>
       <div className="flex items-center justify-between gap-3">
         <h3 className="flex items-center gap-2 text-[15px] font-bold text-fg">
-          <Flag className="size-4 text-lime" /> Feature flags
+          <Flag className="size-4 text-lime" /> Funciones habilitadas
         </h3>
         <span className="text-[11.5px] font-semibold text-muted">
           solo esta cuenta
@@ -947,7 +947,7 @@ export function AuditCard({ d, i }: { d: TenantDetail; i: number }) {
       </ol>
       <p className="mt-4 flex items-center gap-2 border-t border-line pt-3 text-[11.5px] font-semibold text-muted">
         <ShieldCheck className="size-3.5 text-lime" /> Las sesiones de
-        impersonación quedan registradas acá.
+        Pulso como dueño quedan registradas acá.
       </p>
     </article>
   );

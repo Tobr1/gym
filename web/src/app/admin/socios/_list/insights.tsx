@@ -130,7 +130,7 @@ export function Segments({ active, onSelect }: { active: SegmentKey | null; onSe
             <span className="relative mt-2 block text-[30px] font-extrabold leading-none tracking-[-0.04em] text-fg tabular xl:text-[34px]">
               <CountUp value={sg.count} />
             </span>
-            <span className="relative mt-1.5 block truncate text-[11.5px] font-medium text-muted">{sg.hint}</span>
+            <span className="relative mt-1.5 line-clamp-2 text-[11.5px] font-medium leading-snug text-muted">{sg.hint}</span>
             <span className="relative mt-auto block">
               <SegmentViz k={sg.key} color={sg.color} />
             </span>

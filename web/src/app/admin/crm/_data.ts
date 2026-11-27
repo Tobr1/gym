@@ -96,7 +96,7 @@ export const LEADS: Lead[] = [
   L("l15", "negociacion", "Florencia Vega", 1, "instagram", "Pase Libre · anual", "Cerrar con descuento", "Hoy 20:00", 2, "caliente", "hace 6 d"),
   L("l16", "negociacion", "Ramiro Quiroga", 8, "web", "Personal Trainer · 12 sesiones", "Llamar", "Lun 10:00", 0, "tibio", "hace 7 d", true),
   // Ganado
-  L("l17", "ganado", "Paula Sánchez", 5, "referido", "Pase Libre · anual", "Alta completada", "24 nov", 1, "caliente", "6 d"),
+  L("l17", "ganado", "Paula Sánchez", undefined, "referido", "Pase Libre · anual", "Alta completada", "24 nov", 1, "caliente", "6 d"),
   L("l18", "ganado", "Ezequiel Moreno", undefined, "walkin", "Musculación 3x · trimestral", "Alta completada", "23 nov", 0, "caliente", "4 d"),
   L("l19", "ganado", "Natalia Bustos", undefined, "instagram", "Funcional + Pilates", "Alta completada", "21 nov", 2, "tibio", "8 d"),
   // Perdido

@@ -85,7 +85,7 @@ export default function SuscripcionesPage() {
               </h3>
               <p className="mt-0.5 text-[12.5px] text-muted">Reintentos automáticos a las 06:00 · suspensión tras el 4.º intento</p>
             </div>
-            <Link href="/superadmin/gimnasios" className="shrink-0 text-[12.5px] font-semibold text-muted transition hover:text-fg">
+            <Link href="/superadmin/gimnasios?segmento=morosos" className="shrink-0 text-[12.5px] font-semibold text-muted transition hover:text-fg">
               Ver morosos
             </Link>
           </div>

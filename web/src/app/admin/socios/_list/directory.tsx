@@ -24,8 +24,10 @@ import { STATUS_META, type MemberStatus } from "@/lib/mock";
 import { cn, fmt, money } from "@/lib/utils";
 import type { MethodKey } from "../../caja/_data";
 import {
+  ACTIVE_TOTAL,
   ATT_BUCKETS,
   BRANCHES,
+  FROZEN_TOTAL,
   PADRON_TOTAL,
   PLANS,
   PLAN_COLOR,
@@ -41,7 +43,7 @@ import {
 } from "./data";
 import { RiskStrip, Segments } from "./insights";
 import { BulkBar, ChargeSheet, FilterSheet, NewMemberSheet, PeekSheet, Toast, type Filters, type NewMember, type ToastMsg } from "./overlays";
-import { FilterMenu, STATUS_DOT, norm } from "./parts";
+import { FilterMenu, norm } from "./parts";
 import { MemberCards, MembersTable, type Sort, type SortKey } from "./table";
 
 const EMPTY: Filters = { plans: [], branches: [], statuses: [], att: [], riskOnly: false };
@@ -146,7 +148,8 @@ export function Directory() {
   }, [rows, q, seg, f, sort, pinned]);
 
   const activeCount = f.plans.length + f.branches.length + f.statuses.length + f.att.length + (f.riskOnly ? 1 : 0);
-  const anyFilter = activeCount > 0 || !!seg || !!q.trim();
+  const narrowed = activeCount > 0 || !!q.trim(); // búsqueda o filtros: resultados de una sola página
+  const anyFilter = narrowed || !!seg;
   const segMeta = SEGMENTS.find((s) => s.key === seg);
   const total = segMeta ? segMeta.count : PADRON_TOTAL;
 
@@ -313,7 +316,8 @@ export function Directory() {
         {/* Mobile: resumen + orden */}
         <div className="mb-3 flex items-center justify-between gap-3 md:hidden">
           <p className="text-[13px] text-muted">
-            <b className="font-extrabold text-fg tabular">{filtered.length}</b> {anyFilter ? "coincidencias" : `de ${fmt(total)} socios`}
+            <b className="font-extrabold text-fg tabular">{filtered.length}</b>{" "}
+            {narrowed ? (filtered.length === 1 ? "coincidencia" : "coincidencias") : segMeta ? `de ${fmt(total)} · ${segMeta.label.toLowerCase()}` : `de ${fmt(total)} socios`}
           </p>
           <label className="relative flex items-center gap-1.5 text-[12.5px] font-semibold text-fg-2">
             <ArrowUpDown className="size-3.5 text-muted" />
@@ -440,17 +444,19 @@ export function Directory() {
 
           <footer className="flex flex-wrap items-center justify-between gap-3 border-t border-line px-5 py-3 text-[12px] text-muted">
             <span>
-              {anyFilter ? (
+              {narrowed ? (
                 <>
-                  <b className="text-fg-2 tabular">{filtered.length}</b> en esta página · <b className="text-fg-2 tabular">{fmt(total)}</b> en {segMeta ? `“${segMeta.label}”` : "el padrón"}
+                  <b className="text-fg-2 tabular">{filtered.length}</b> {filtered.length === 1 ? "coincidencia" : "coincidencias"}
+                  {segMeta ? ` en “${segMeta.label}”` : " en el padrón"}
                 </>
               ) : (
                 <>
-                  Mostrando <b className="text-fg-2 tabular">1–{filtered.length}</b> de <b className="text-fg-2 tabular">{fmt(PADRON_TOTAL)}</b> socios
+                  Mostrando <b className="text-fg-2 tabular">1–{filtered.length}</b> de <b className="text-fg-2 tabular">{fmt(total)}</b>{" "}
+                  {segMeta ? `en “${segMeta.label}”` : "socios"}
                 </>
               )}
             </span>
-            <Pager pages={Math.ceil(total / PAGE_SIZE)} />
+            <Pager pages={narrowed ? 1 : Math.ceil(total / PAGE_SIZE)} />
           </footer>
         </article>
 
@@ -462,12 +468,18 @@ export function Directory() {
                 <ChevronLeft className="size-3.5" /> Deslizá una tarjeta para cobrar o escribir
               </p>
               <MemberCards rows={filtered} q={q} selected={selected} onToggle={toggle} fresh={fresh} actions={actions} />
-              <p className="mt-4 text-center text-[12px] text-muted">
-                {fmt(filtered.length)} de {fmt(total)} ·{" "}
-                <button type="button" className="font-bold text-lime">
-                  Cargar más
-                </button>
-              </p>
+              {narrowed ? (
+                <p className="mt-4 text-center text-[12px] text-muted">
+                  {filtered.length === 1 ? "1 coincidencia" : `${fmt(filtered.length)} coincidencias`} · no hay más resultados
+                </p>
+              ) : (
+                <p className="mt-4 text-center text-[12px] text-muted">
+                  {fmt(filtered.length)} de {fmt(total)} ·{" "}
+                  <button type="button" className="inline-flex h-9 items-center font-bold text-lime">
+                    Cargar más
+                  </button>
+                </p>
+              )}
             </>
           ) : (
             <div className="panel">
@@ -598,9 +610,12 @@ function Header({ onNew, onExport, onImport }: { onNew: () => void; onExport: ()
         </span>
       }
       title={
-        <span className="inline-flex items-baseline gap-3">
+        <span className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
           Socios
           <span className="text-[18px] font-bold tracking-[-0.02em] text-muted tabular sm:text-[20px]">{fmt(PADRON_TOTAL)}</span>
+          <span className="basis-full text-[12.5px] font-semibold tracking-normal text-muted sm:basis-auto">
+            <b className="font-bold text-fg-2 tabular">{fmt(ACTIVE_TOTAL)}</b> activos + <b className="font-bold text-fg-2 tabular">{fmt(FROZEN_TOTAL)}</b> congelados
+          </span>
         </span>
       }
     >

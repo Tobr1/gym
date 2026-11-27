@@ -1,5 +1,6 @@
 /* Datos de demostración del Super Admin (cuentas / tenants y facturación SaaS). Reemplazar por la capa de datos real.
- * Coherentes con el Centro de control: 326 gimnasios activos · 512 sedes · 148.920 socios · MRR $ 25.640.000.
+ * Coherentes con el Centro de control: 326 gimnasios activos (+ 18 en prueba + 4 suspendidos = 348 cuentas en 4 países)
+ * · 512 sedes · 148.920 socios · MRR $ 25.640.000.
  * Precio por sede y mes, igual que la landing: Starter $ 39.900 · Pro $ 79.900 · Cadena a medida.
  * "Ahora" es miércoles 25/11/2026, 08:52. */
 import type { Tone } from "@/components/ui/primitives";
@@ -94,7 +95,8 @@ export const PLATFORM = {
   delinquent: 7,
   sedes: 512,
   socios: 148_920,
-  total: 326 + 18 + 4, // activos + en prueba + suspendidos
+  suspended: 4,
+  total: 326 + 18 + 4, // activos + en prueba + suspendidos = 348
 };
 
 /* ── Cobranza SaaS: cola de reintentos (los 7 morosos) ───────── */

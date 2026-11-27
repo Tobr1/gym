@@ -371,7 +371,7 @@ function SharedRules() {
         <SettingRow title="Visitas de otras sedes" text="Planes de 1 sede: 2 visitas por mes">
           <Toggle checked={guest} onChange={setGuest} label="Visitas de otras sedes" />
         </SettingRow>
-        <SettingRow title="Sugerir la sede con menos gente" text="En la app, si la suya supera el 80 %">
+        <SettingRow title="Sugerir la sede con menos gente" text="En la app, si la suya supera el 80%">
           <Toggle checked={nearest} onChange={setNearest} label="Sugerir sede" />
         </SettingRow>
       </div>

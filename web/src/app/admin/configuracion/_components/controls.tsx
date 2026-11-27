@@ -118,7 +118,7 @@ export function Field({
   );
 }
 
-export const inputShell =
+const inputShell =
   "flex h-10 w-full items-center gap-2 rounded-xl border border-line bg-ink/40 px-3 text-[13.5px] text-fg transition focus-within:border-lime/45 focus-within:bg-ink/60 focus-within:shadow-[0_0_0_4px_rgb(181_245_74/0.07)] hover:border-line-strong";
 
 export function TextInput({
@@ -312,13 +312,11 @@ export function Segmented<T extends string | number>({
   options,
   onChange,
   className,
-  size = "md",
 }: {
   value: T;
   options: readonly { value: T; label: React.ReactNode }[];
   onChange: (v: T) => void;
   className?: string;
-  size?: "sm" | "md";
 }) {
   const layout = useId();
   return (
@@ -332,7 +330,7 @@ export function Segmented<T extends string | number>({
             onClick={() => onChange(o.value)}
             className={cn(
               "relative flex-1 whitespace-nowrap rounded-lg font-bold transition-colors tabular",
-              size === "sm" ? "h-7 px-2.5 text-[11.5px]" : "h-8 px-3 text-[12.5px]",
+              "h-8 px-3 text-[12.5px]",
               on ? "text-fg" : "text-muted hover:text-fg",
             )}
           >
@@ -450,14 +448,12 @@ export function Sheet({
   title,
   subtitle,
   children,
-  footer,
 }: {
   open: boolean;
   onClose: () => void;
   title: React.ReactNode;
   subtitle?: React.ReactNode;
   children: React.ReactNode;
-  footer?: React.ReactNode;
 }) {
   useEffect(() => {
     if (!open) return;
@@ -501,7 +497,6 @@ export function Sheet({
               </button>
             </div>
             <div className="no-scrollbar flex-1 overflow-y-auto px-5 py-5">{children}</div>
-            {footer && <div className="flex items-center justify-end gap-2 border-t border-line bg-ink/30 px-5 py-3.5">{footer}</div>}
           </motion.div>
         </div>
       )}

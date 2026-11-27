@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { AlertTriangle, ArrowUpRight, Info, Lightbulb, MoreHorizontal, Rocket, ShieldAlert, Zap } from "lucide-react";
 import { CountUp } from "@/components/count-up";
 import { RegionMap } from "@/components/superadmin/region-map";
@@ -120,7 +121,7 @@ export default function SuperAdminPage() {
               14 gimnasios no usan la app del socio. Activarla reduce el churn un 22% en promedio.
             </p>
           </div>
-          <button className="mt-3 h-10 w-full rounded-xl bg-lime text-[13px] font-bold text-lime-ink">Ver cuentas en riesgo</button>
+          <Link href="/superadmin/gimnasios?segmento=riesgo" className="mt-3 grid h-10 w-full place-items-center rounded-xl bg-lime text-[13px] font-bold text-lime-ink">Ver cuentas en riesgo</Link>
         </article>
 
         {/* crecimiento MRR */}

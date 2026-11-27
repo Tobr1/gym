@@ -97,7 +97,7 @@ export function MemberProfile() {
           <div className="mt-5 flex items-center gap-2.5">
             <div className="min-w-0 flex-1 rounded-2xl bg-black/30 px-3.5 py-2.5 backdrop-blur">
               <p className="text-[11px] font-semibold text-muted">Vence</p>
-              <p className="text-[14px] font-extrabold text-fg">{MEMBERSHIP.until} · renueva sola</p>
+              <p className="text-[14px] font-extrabold text-fg">{MEMBERSHIP.until} · débito automático</p>
             </div>
             <button
               onClick={() => setQr(true)}

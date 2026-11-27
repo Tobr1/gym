@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { ATTENDANCE, COHORTS, DAYS, HOURS } from "../_data";
+import { ATTENDANCE, CAPACITY, COHORTS, DAYS, HOURS } from "../_data";
 
 /** Intensidad lima: t entre 0 y 1. */
 const lime = (t: number) => `rgb(181 245 74 / ${(0.05 + t * 0.88).toFixed(3)})`;
@@ -165,20 +165,31 @@ export function CohortHeatmap() {
 
 /* ── Asistencia: día × hora ─────────────────────────────────────── */
 export function AttendanceHeatmap() {
-  const max = Math.max(...ATTENDANCE.flat());
+  const max = Math.max(...ATTENDANCE.flat().map((v) => v ?? 0));
   const peak = (() => {
     let best = { d: 0, h: 0, v: -1 };
     ATTENDANCE.forEach((row, d) =>
-      row.forEach((v, h) => v > best.v && (best = { d, h, v })),
+      row.forEach((v, h) => v !== null && v > best.v && (best = { d, h, v })),
     );
     return best;
   })();
   const [hover, setHover] = useState<{ d: number; h: number } | null>(null);
   const cur = hover ?? peak;
-  const value = ATTENDANCE[cur.d][cur.h];
+  const value = ATTENDANCE[cur.d][cur.h] ?? 0;
 
   const cell = (d: number, h: number, className: string) => {
     const v = ATTENDANCE[d][h];
+    if (v === null)
+      return (
+        <span
+          key={`${d}-${h}`}
+          title={`${DAY_NAMES[d]} ${hh(HOURS[h])} h: cerrado`}
+          className={cn(
+            "block rounded-[4px] bg-[repeating-linear-gradient(135deg,rgb(255_255_255/0.05)_0_2px,transparent_2px_6px)] sm:rounded-[5px]",
+            className,
+          )}
+        />
+      );
     const on = cur.d === d && cur.h === h;
     return (
       <button
@@ -206,7 +217,7 @@ export function AttendanceHeatmap() {
         </span>
         <span className="text-muted">
           <b className="font-extrabold text-lime tabular">{value}</b> en sala ·{" "}
-          {Math.round((value / 140) * 100)}% de la capacidad
+          {Math.round((value / CAPACITY) * 100)}% del aforo
           {!hover && <span className="text-fg-2"> · pico semanal</span>}
         </span>
       </div>
@@ -293,7 +304,7 @@ export function AttendanceHeatmap() {
       </div>
 
       <div className="mt-3.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-2 text-[11.5px] text-muted">
-        <span className="flex items-center gap-2">
+        <span className="flex flex-wrap items-center gap-2">
           Tranquilo
           <span
             className="h-2 w-24 rounded-full"
@@ -302,8 +313,10 @@ export function AttendanceHeatmap() {
             }}
           />
           Lleno
+          <span className="ml-2 inline-block size-2.5 rounded-[3px] bg-[repeating-linear-gradient(135deg,rgb(255_255_255/0.12)_0_2px,transparent_2px_5px)] ring-1 ring-inset ring-white/10" />
+          Cerrado
         </span>
-        <span>Promedio 4 semanas · 3 sedes · 06 a 23 h</span>
+        <span>Sede Centro · promedio de 4 semanas</span>
       </div>
     </div>
   );

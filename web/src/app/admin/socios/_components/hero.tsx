@@ -40,7 +40,7 @@ export function ProfileHero({ p }: { p: Profile }) {
       <img
         src={heroPhoto}
         alt=""
-        className="absolute inset-0 h-full w-full object-cover object-[70%_30%] opacity-60 saturate-[0.85]"
+        className="photo-grade absolute inset-0 h-full w-full object-cover object-[70%_30%] opacity-60"
       />
       <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/90 to-ink/20" />
       <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/10 to-transparent" />
@@ -86,7 +86,7 @@ export function ProfileHero({ p }: { p: Profile }) {
               </h1>
               <p className="mt-2.5 flex flex-wrap items-baseline text-[13px] font-medium leading-relaxed text-fg-2">
                 <span className="whitespace-nowrap">
-                  Socio/a desde <span className="font-bold text-fg">{m.since}</span>
+                  {p.female ? "Socia" : "Socio"} desde <span className="font-bold text-fg">{m.since}</span>
                 </span>
                 <span className="mx-2 text-faint">·</span>
                 <span className="whitespace-nowrap">{p.age} años</span>
@@ -154,7 +154,7 @@ function HeroAside({ p }: { p: Profile }) {
         </p>
         <p className="mt-2 text-[28px] font-extrabold leading-none tracking-[-0.03em] text-fg tabular">{money(p.debt)}</p>
         <p className="mt-1.5 text-[12.5px] text-fg-2">
-          Venció el <span className="font-bold text-fg">{p.dueLabel}</span> · incluye recargo
+          Venció el <span className="font-bold text-fg">{p.dueLabel}</span> · 1 cuota impaga
         </p>
         <p className="mt-3 flex items-center gap-1.5 border-t border-white/[0.08] pt-3 text-[11.5px] font-semibold text-muted">
           <Lock className="size-3.5 text-rose" /> Acceso y reservas bloqueados

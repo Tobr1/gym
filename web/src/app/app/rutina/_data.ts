@@ -1,11 +1,11 @@
-/* Sesión de hoy del socio: Día A (Empuje) del programa armado en /admin/rutinas. */
+/* Sesión de hoy del socio: Día A (Empuje) del programa «Full Power · PPL» que arma Nico Paredes en /admin/rutinas. */
 import { BLOCK_META, DAYS, EX_BY_ID, INITIAL, type Item } from "@/app/admin/rutinas/_components/data";
 import { COACH } from "@/app/admin/clases/_components/data";
 
 export const TODAY_DAY = DAYS[0]; // Día A · Empuje
 export const BLOCKS = INITIAL.A;
 export const ITEMS = BLOCKS.flatMap((b) => b.items);
-export const PROGRAM = { name: "Hipertrofia · fase 2", week: 3, weeks: 6, coach: COACH.agus };
+export const PROGRAM = { name: "Full Power · PPL", week: 3, weeks: 6, coach: COACH.nico };
 export { BLOCK_META, EX_BY_ID };
 
 export type Unit = "reps" | "s" | "min";

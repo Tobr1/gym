@@ -33,12 +33,10 @@ import {
 } from "lucide-react";
 import { LogoMark } from "@/components/ui/logo";
 import { Pill, Ring, SectionTitle, Sparkline } from "@/components/ui/primitives";
-import { face, PHOTO } from "@/lib/photos";
+import { PHOTO } from "@/lib/photos";
 import { cn, money } from "@/lib/utils";
 import type { Payment, Profile, TimelineEvent } from "../_lib/profile";
-
-const s = (i: number) => ({ "--i": i }) as React.CSSProperties;
-const dec = (n: number, d = 1) => n.toLocaleString("es-AR", { minimumFractionDigits: d, maximumFractionDigits: d });
+import { dec, Face as Avatar, s } from "./kit";
 
 /* ── Membresía ─────────────────────────────────────────────── */
 export function MembershipCard({ p, i }: { p: Profile; i: number }) {
@@ -71,7 +69,7 @@ export function MembershipCard({ p, i }: { p: Profile; i: number }) {
             <LogoMark className="size-7 shrink-0" />
             <div className="min-w-0 overflow-hidden whitespace-nowrap leading-tight">
               <p className="text-[11px] font-extrabold tracking-[0.14em] text-fg">IRON FACTORY</p>
-              <p className="text-[10px] font-semibold tracking-[0.12em] text-muted">MEMBER · PULSO</p>
+              <p className="text-[10px] font-semibold tracking-[0.12em] text-muted">SOCIO · PULSO</p>
             </div>
           </div>
           <span className="shrink-0 whitespace-nowrap rounded-md bg-lime px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-lime-ink">
@@ -132,7 +130,7 @@ export function MembershipCard({ p, i }: { p: Profile; i: number }) {
       <dl className="mt-4 grid grid-cols-3 gap-2">
         {[
           { icon: CalendarClock, l: expired ? "Venció" : "Vence", v: p.dueLabel, c: expired ? "text-rose" : soon ? "text-amber" : "text-fg" },
-          { icon: Banknote, l: expired ? "Adeuda" : "Cuota", v: money(expired ? p.debt : m.amount || 42000), c: expired ? "text-rose" : "text-fg" },
+          { icon: Banknote, l: expired ? "Adeuda" : "Cuota", v: money(expired ? p.debt : p.price), c: expired ? "text-rose" : "text-fg" },
           { icon: Repeat2, l: "Renueva", v: p.payMethod.auto ? "Auto" : "Manual", c: "text-fg" },
         ].map((x) => (
           <div key={x.l} className="rounded-xl border border-line bg-white/[0.02] px-2.5 py-2">
@@ -399,7 +397,7 @@ export function RoutineCard({ p, i }: { p: Profile; i: number }) {
     <article className="panel stagger grid overflow-hidden md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.4fr)]" style={s(i)}>
       <div className="relative min-h-[220px] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={photo} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] hover:scale-105" />
+        <img src={photo} alt="" className="photo-grade absolute inset-0 h-full w-full object-cover transition-transform duration-[1.2s] hover:scale-105" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-ink/10 md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-surface" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/20 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-5">
@@ -786,21 +784,6 @@ function cardTag(plan: string) {
   if (plan.startsWith("Musculación")) return plan.replace("Musculación", "Musc.");
   if (plan.startsWith("Pase")) return "Pase";
   return plan.split(" ")[0];
-}
-
-/** Retrato con carga inmediata (las capturas de página completa no disparan lazy-load). */
-function Avatar({ i, size }: { i: number; size: number }) {
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={face(i, size * 2)}
-      alt=""
-      width={size}
-      height={size}
-      className="shrink-0 rounded-full bg-surface-3 object-cover"
-      style={{ width: size, height: size }}
-    />
-  );
 }
 
 function MiniRing({ value, size = 58 }: { value: number; size?: number }) {

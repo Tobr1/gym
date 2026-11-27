@@ -43,7 +43,7 @@ export function TenantActions({
     <>
       <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
         <Button size="lg" className="col-span-2 sm:col-span-1" onClick={() => setDialog("impersonate")}>
-          <Eye className="size-[18px] shrink-0" /> Impersonar
+          <Eye className="size-[18px] shrink-0" /> Ver como dueño
         </Button>
         <Button variant="secondary" size="lg" onClick={() => setDialog("plan")}>
           <Repeat2 className="size-[18px] shrink-0" /> Cambiar plan
@@ -64,7 +64,7 @@ export function TenantActions({
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-[17px] font-extrabold tracking-[-0.02em] text-fg">
-                  {dialog === "impersonate" ? "Entrar como la cuenta" : dialog === "plan" ? "Cambiar plan" : suspended ? "Reactivar cuenta" : "Suspender cuenta"}
+                  {dialog === "impersonate" ? "Ver el panel como dueño" : dialog === "plan" ? "Cambiar plan" : suspended ? "Reactivar cuenta" : "Suspender cuenta"}
                 </p>
                 <p className="mt-1 text-[13px] text-muted">{name}</p>
               </div>

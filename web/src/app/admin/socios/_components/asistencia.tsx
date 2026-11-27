@@ -31,7 +31,7 @@ export function AsistenciaTab({ p }: { p: Profile }) {
     <div className="mt-6 grid gap-4">
       {st === "vencido" && (
         <StatusNote tone="rose" icon={<Lock />} className="stagger">
-          <b>Sin ingresos desde el {p.dueLabel}.</b> Los molinetes rechazan su QR desde el 17 nov por cuota vencida.
+          <b>Sin ingresos desde el {p.dueLabel}.</b> Los molinetes rechazan su acceso desde el 17 nov por cuota vencida · último intento hoy 08:21.
         </StatusNote>
       )}
       {st === "congelado" && (

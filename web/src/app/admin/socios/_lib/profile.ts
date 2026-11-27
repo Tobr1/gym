@@ -101,10 +101,21 @@ export type Profile = {
   emergency: { name: string; relation: string; phone: string };
   tags: { label: string; tone: "lime" | "violet" | "cyan" | "amber" | "rose" | "neutral" }[];
   debt: number;
+  /** Precio de lista del plan (los congelados figuran con amount 0 en MEMBERS). */
+  price: number;
   /** Reservas de los próximos 7 días (la primera es la próxima clase). */
   bookings: Booking[];
   /** Reservas suspendidas (cuota vencida o membresía congelada). */
   bookingsOnHold: boolean;
+};
+
+/** Precios de lista vigentes (noviembre 2026). Coinciden con MEMBERS, Caja y CRM. */
+export const PLAN_PRICE: Record<string, number> = {
+  "Pase Libre": 48_900,
+  "Musculación 3x": 36_500,
+  CrossTraining: 44_500,
+  "Funcional + Pilates": 42_000,
+  "Pilates Reformer": 52_000,
 };
 
 export const COACHES = [
@@ -117,7 +128,8 @@ function parseDue(due: string): Date | null {
   const m = due.match(/(\d{1,2})\s+(\w{3})/);
   if (!m) return null;
   const month = MONTHS.indexOf(m[2]);
-  return new Date(Date.UTC(2026, month, Number(m[1])));
+  // "hoy" es nov 2026: los vencimientos de ene–jun ya caen en 2027
+  return new Date(Date.UTC(month < 6 ? 2027 : 2026, month, Number(m[1])));
 }
 
 export const dayMs = 86_400_000;
@@ -210,7 +222,7 @@ export function getProfile(id: string): Profile | null {
 
   const coach = COACHES[Number(id) % COACHES.length];
   const plan = member.plan;
-  const amount = member.amount || 42000;
+  const amount = member.amount || PLAN_PRICE[plan] || 42_000;
 
   const routineByPlan: Record<string, Profile["routine"]["days"]> = {
     default: [
@@ -259,13 +271,18 @@ export function getProfile(id: string): Profile | null {
       status,
     });
   });
-  const debt = member.status === "vencido" ? amount + 2200 : 0;
+  // Misma deuda que figura en Caja (DEBTORS): una cuota, sin recargo.
+  const debt = member.status === "vencido" ? amount : 0;
 
   /* ── Línea de tiempo ────────────────────────── */
   const lastPaid = payments.find((x) => x.status === "pagado") ?? payments[1];
   const timeline: TimelineEvent[] = [];
   if (member.status === "vencido") {
-    timeline.push({ kind: "alerta", title: "Cuota vencida", detail: `Se envió recordatorio automático por WhatsApp · ${money(debt)}`, when: "Hoy · 09:00" });
+    // Los mismos eventos que registran Acceso (08:21, Molinete 2) y Caja (07:51, cobro rechazado).
+    timeline.push(
+      { kind: "alerta", title: "Ingreso rechazado", detail: "Molinete 2 · credencial NFC · cuota vencida", when: "Hoy · 08:21" },
+      { kind: "alerta", title: "Cobro rechazado", detail: `Tarjeta de crédito · ${money(debt)} · fondos insuficientes`, when: "Hoy · 07:51" },
+    );
   } else if (member.status === "congelado") {
     timeline.push({ kind: "plan", title: "Membresía congelada", detail: "Licencia por viaje · reactivación el 15 dic", when: "Hace 21 días" });
   } else {
@@ -276,10 +293,10 @@ export function getProfile(id: string): Profile | null {
       kind: "nota",
       title: `Nota de ${coach.name.split(" ")[0]}`,
       detail: COACH_NOTE[rKey][female ? 0 : 1],
-      when: "Hace 2 días",
+      when: frozen ? "3 nov" : "Hace 2 días",
       author: coach,
     },
-    { kind: "logro", title: `Racha de ${best} semanas`, detail: "3+ entrenamientos por semana sin cortar", when: "Hace 5 días" },
+    { kind: "logro", title: `Racha de ${best} semanas`, detail: "3+ entrenamientos por semana sin cortar", when: frozen ? "2 nov" : "Hace 5 días" },
     { kind: "pago", title: "Pago acreditado", detail: `${money(lastPaid.amount)} · ${lastPaid.method}`, when: payDay(lastPaid.date) },
     { kind: "plan", title: `Cambio de plan a ${plan}`, detail: "Upgrade desde Musculación 2x · sin cargo de alta", when: "14 ago" },
     { kind: "nota", title: "Evaluación física", detail: `Peso ${one(weight[3])} kg · grasa ${one(fat[3])} % · objetivo actualizado`, when: "2 ago", author: coach },
@@ -289,11 +306,11 @@ export function getProfile(id: string): Profile | null {
     { label: attLabel(member.attendance), tone: member.attendance > 80 ? "lime" : member.attendance > 50 ? "cyan" : "rose" },
     { label: female ? "Objetivo: recomposición" : "Objetivo: fuerza", tone: "violet" },
     { label: r() > 0.5 ? "Turno mañana" : "Turno noche", tone: "neutral" },
-    { label: "Referido/a", tone: "neutral" },
+    { label: female ? "Referida" : "Referido", tone: "neutral" },
     { label: "App activa", tone: "cyan" },
   ];
   if (member.status === "vencido") tagPool.push({ label: "Riesgo de baja", tone: "rose" });
-  if (member.attendance > 85) tagPool.push({ label: "Candidato/a plan anual", tone: "amber" });
+  if (member.attendance > 85) tagPool.push({ label: female ? "Candidata a plan anual" : "Candidato a plan anual", tone: "amber" });
 
   const rel = r();
   return {
@@ -313,7 +330,8 @@ export function getProfile(id: string): Profile | null {
       visits: 120 + Math.floor(att * 300 + r() * 40),
       streak,
       bestStreak: best,
-      monthVisits: Math.round(att * 18),
+      // Mismo conteo que el calendario de la pestaña Asistencia (ingresos de noviembre).
+      monthVisits: weeks.flat().filter((c) => c.level > 0 && c.date.startsWith("2026-11")).length,
       avgMinutes: Math.round(58 + r() * 22),
       usualHour: member.lastCheckIn.includes(":") ? `${member.lastCheckIn.slice(0, 2)}:00 – ${String(Number(member.lastCheckIn.slice(0, 2)) + 1).padStart(2, "0")}:30` : "19:00 – 20:30",
     },
@@ -375,6 +393,7 @@ export function getProfile(id: string): Profile | null {
     },
     tags: tagPool,
     debt,
+    price: amount,
     bookings: BOOKINGS[rKey],
     bookingsOnHold: member.status === "vencido" || member.status === "congelado",
   };

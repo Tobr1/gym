@@ -164,7 +164,7 @@ export function PaymentsSection() {
   const touch = useTouch();
   const [enabled, setEnabled] = useState<Record<MethodKey, boolean>>({ efectivo: true, debito: true, credito: true, transferencia: true, mp: true });
   const [inApp, setInApp] = useState<Record<MethodKey, boolean>>({ efectivo: false, debito: false, credito: true, transferencia: true, mp: true });
-  const [due, setDue] = useSetting("pagos.vencimiento", "fijo");
+  const [due, setDue] = useSetting("pagos.vencimiento", "alta");
   const [dueDay, setDueDay] = useSetting("pagos.vencimiento", 5);
   const [late, setLate] = useSetting("pagos.recargo", 10);
   const [lateFrom, setLateFrom] = useSetting("pagos.recargo", 6);
@@ -200,7 +200,7 @@ export function PaymentsSection() {
                 </div>
                 <p className="hidden text-right text-[12.5px] @2xl:block">
                   <span className="font-bold text-fg tabular">{money(m.amount)}</span>
-                  <span className="block text-[10.5px] text-muted tabular">{Math.round((m.amount / total) * 1000) / 10} % · {m.ops} op.</span>
+                  <span className="block text-[10.5px] text-muted tabular">{Math.round((m.amount / total) * 1000) / 10}% · {m.ops} op.</span>
                 </p>
                 <span className="flex items-center justify-center gap-2">
                   <span className="text-[11px] font-semibold text-muted @2xl:hidden">Mostrador</span>
@@ -254,11 +254,11 @@ export function PaymentsSection() {
                   <Stepper value={dueDay} onChange={setDueDay} min={1} max={28} />
                 </SettingRow>
               )}
-              <SettingRow title="Recargo por mora" text={`Desde el día ${lateFrom}`}>
+              <SettingRow title="Recargo por mora" text={`Desde el ${lateFrom}.º día de atraso`}>
                 <Stepper value={late} onChange={setLate} min={0} max={30} suffix="%" />
               </SettingRow>
-              <SettingRow title="Se aplica desde el día">
-                <Stepper value={lateFrom} onChange={setLateFrom} min={1} max={28} />
+              <SettingRow title="Días de gracia" text="Antes de sumar el recargo">
+                <Stepper value={lateFrom - 1} onChange={(v) => setLateFrom(v + 1)} min={0} max={27} suffix="días" />
               </SettingRow>
             </div>
           </div>
@@ -416,7 +416,7 @@ export function NotificationsSection() {
     .replace("{comprobante}", "FC B 0003-00012846")
     .replace("{clase}", "CrossTraining")
     .replace("{dia}", "jueves 26")
-    .replace("{hora}", "18:00")
+    .replace("{hora}", "17:15")
     .replace("{coach}", "Nico")
     .replace("{dias}", "14");
 

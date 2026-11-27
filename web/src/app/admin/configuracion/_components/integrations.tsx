@@ -54,6 +54,11 @@ export function IntegrationsSection() {
   );
 }
 
+const FRESH_NOTE: Partial<Record<IntegrationKey, string>> = {
+  gcal: "Sincronizando las clases de las 3 sedes…",
+  zapier: "Listo: creá tu primer Zap desde el panel de Zapier",
+};
+
 function Logo({ x, size = 44 }: { x: Integration; size?: number }) {
   return (
     <span
@@ -117,7 +122,11 @@ function IntegrationCard({ x, i, on, busy, onConnect }: { x: Integration; i: num
               <MiniActivity seed={x.key.length + i} color={x.tile === "#E8EEF6" ? "var(--color-fg-2)" : x.tile} />
             </div>
           )}
-          {x.detail && <p className="relative mt-3 truncate text-[11.5px] text-muted">{fresh ? "Sincronizando clases de las 3 sedes…" : x.detail}</p>}
+          {(fresh || x.detail) && (
+            <p className={cn("relative mt-3 truncate text-[11.5px]", fresh ? "font-semibold text-lime" : "text-muted")}>
+              {fresh ? FRESH_NOTE[x.key] : x.detail}
+            </p>
+          )}
           {x.warn && (
             <p className="relative mt-2 flex items-center gap-1.5 rounded-lg bg-amber/[0.08] px-2.5 py-1.5 text-[11.5px] font-semibold text-amber">
               <AlertTriangle className="size-3.5 shrink-0" /> {x.warn}

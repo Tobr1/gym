@@ -22,7 +22,7 @@ import { ACCENTS, TOTAL_MEMBERS, type AccentKey } from "../_data";
 import { Field, SectionHead, Segmented, SettingRow, TextInput, Toggle, s, useSetting } from "./controls";
 
 type Accent = (typeof ACCENTS)[number];
-/** Adopción de la app (coincide con Super Admin: 74 %). */
+/** Adopción de la app (coincide con Super Admin: 74%). */
 const APP_USERS = Math.round(TOTAL_MEMBERS * 0.74);
 
 const MODULES = [
@@ -36,7 +36,7 @@ type ModuleKey = (typeof MODULES)[number]["key"];
 export function BrandSection() {
   const [accentKey, setAccentKey] = useSetting<AccentKey>("marca.color", "lime");
   const [name, setName] = useSetting("marca.nombre", "Iron Factory");
-  const [greeting, setGreeting] = useSetting("marca.nombre", "Hola");
+  const [greeting, setGreeting] = useSetting("marca.saludo", "Hola");
   const [theme, setTheme] = useSetting<"dark" | "auto">("marca.tema", "dark");
   const [mods, setMods] = useSetting<Record<ModuleKey, boolean>>("marca.inicio", { challenge: true, membership: true, week: true, classes: true });
   const accent = ACCENTS.find((a) => a.key === accentKey)!;
@@ -48,7 +48,7 @@ export function BrandSection() {
         title="App del socio y marca"
         text={
           <>
-            La usan <span className="font-semibold text-fg-2 tabular">{fmt(APP_USERS)}</span> socios (74 %) · los cambios se ven al instante
+            La usan <span className="font-semibold text-fg-2 tabular">{fmt(APP_USERS)}</span> socios (74%) · los cambios se ven al instante
           </>
         }
       />

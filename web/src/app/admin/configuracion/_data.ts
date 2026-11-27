@@ -1,6 +1,6 @@
 /* Datos de demostración de Configuración. Reemplazar por la capa de datos real.
  * Se importan de los otros módulos para que todo coincida: Reportes (socios por plan y por sede),
- * Caja (precios, medios de pago, recargo 10 %, trimestral −10 %, Factura B PV 0003), Clases
+ * Caja (precios, medios de pago, recargo 10%, trimestral −10%, Factura B PV 0003), Clases
  * (disciplinas y coaches), CRM (vendedores) y Super Admin (Iron Factory · Pro · $ 239.700/mes).
  * "Hoy" es miércoles 25/11/2026, 08:52. */
 
@@ -165,11 +165,11 @@ export const TOTAL_MEMBERS = INITIAL_PLANS.reduce((a, p) => a + p.members, 0); /
 export const EXTRA_CHARGES = [
   { label: "Matrícula", value: "$ 15.000", hint: "Alta de socio nuevo" },
   { label: "Clase suelta", value: "$ 8.500", hint: "Visitantes" },
-  { label: "Recargo por mora", value: "10 %", hint: "Desde el día 6" },
-  { label: "Pago trimestral", value: "−10 %", hint: "Bonificación" },
+  { label: "Recargo por mora", value: "10%", hint: "Desde el 6.º día de atraso" },
+  { label: "Pago trimestral", value: "−10%", hint: "Bonificación" },
 ];
 
-/** Precio de Pase Libre a lo largo de 2026 (último aumento: 1 sep, +8 %). */
+/** Precio de Pase Libre a lo largo de 2026 (último aumento: 1 sep, +8%). */
 export const PRICE_HISTORY = [
   { label: "Ene", value: 36_000 },
   { label: "Mar", value: 39_500 },
@@ -264,7 +264,7 @@ export const BRANCHES: Branch[] = [
       { days: "Sábados", time: "09:00 – 14:00" },
       { days: "Domingos", time: "Cerrado" },
     ],
-    manager: { name: "Micaela Torres", face: 14 },
+    manager: { name: "Brenda Salas", face: 5 },
     devices: [
       { name: "Molinete 1", kind: "Molinete", online: true },
       { name: "Molinete 2", kind: "Molinete", online: false, note: "Sin señal desde 08:40" },
@@ -313,7 +313,7 @@ const mail = (n: string) =>
 export const STAFF: Staff[] = [
   { id: "u1", name: "Carolina Vidal", face: 12, email: mail("Carolina Vidal"), role: "admin", branch: "Todas las sedes", last: "Ahora", online: true, twoFA: true },
   { id: "u2", name: "Ezequiel Luna", face: 10, email: mail("Ezequiel Luna"), role: "recepcion", branch: "Sede Norte", last: "Hace 4 min", online: true, twoFA: true },
-  { id: "u3", name: "Micaela Torres", face: 14, email: mail("Micaela Torres"), role: "recepcion", branch: "Sede Parque", last: "Hace 12 min", online: true, twoFA: false },
+  { id: "u3", name: "Brenda Salas", face: 5, email: mail("Brenda Salas"), role: "recepcion", branch: "Sede Parque", last: "Hace 12 min", online: true, twoFA: false },
   ...COACHES.map(
     (c, i): Staff => ({
       id: `c-${c.id}`,
@@ -511,7 +511,7 @@ export const NOTIFS: { key: string; label: string; when: string; on: Record<Chan
     message: "¡Feliz cumple, {nombre}! 🎉 Pasá por la barra de tu sede: tenés un batido de regalo.",
   },
 ];
-export const VARIABLES = ["{nombre}", "{plan}", "{vencimiento}", "{monto}", "{link_pago}", "{clase}", "{hora}"];
+export const VARIABLES = ["{nombre}", "{plan}", "{vencimiento}", "{monto}", "{link_pago}", "{comprobante}", "{clase}", "{dia}", "{hora}", "{coach}", "{dias}"];
 
 /* ── Facturación (suscripción a Pulso, coincide con Super Admin) ── */
 export const SUBSCRIPTION = {

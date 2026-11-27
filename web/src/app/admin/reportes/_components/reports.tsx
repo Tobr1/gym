@@ -21,7 +21,10 @@ import {
   BRANCH_ROWS,
   CAPACITY,
   CHURN,
+  CLASS_OCCUPANCY,
+  CLASS_SESSIONS,
   CLASS_STATS,
+  CLASS_WAITLIST,
   COHORTS,
   DAYS,
   FREQUENCY,
@@ -127,7 +130,7 @@ function ReportHero({
             <dt className="truncate text-[11.5px] font-semibold text-muted">
               {k.label}
             </dt>
-            <dd className="mt-1 whitespace-nowrap text-[19px] font-extrabold leading-none tracking-[-0.03em] text-fg tabular sm:text-[clamp(18px,1.55vw,22px)]">
+            <dd className="mt-1 whitespace-nowrap text-[17px] font-extrabold min-[400px]:text-[19px] leading-none tracking-[-0.03em] text-fg tabular sm:text-[clamp(18px,1.55vw,22px)]">
               {k.value}
             </dd>
             <dd className="mt-1.5 truncate text-[11.5px] text-muted">
@@ -277,8 +280,8 @@ export function IngresosReport({
               tone: "lime",
               text: (
                 <>
-                  El <b className="text-fg">62%</b> del crecimiento viene del
-                  ajuste de cuota de septiembre; el resto, de{" "}
+                  El <b className="text-fg">61%</b> de la suba vs. octubre viene
+                  de un ticket más alto (+7,1%); el resto, de{" "}
                   <b className="text-fg">68 socios netos</b> nuevos.
                 </>
               ),
@@ -290,8 +293,10 @@ export function IngresosReport({
               text: (
                 <>
                   <b className="text-fg">CrossTraining</b> crece +16,8% y tiene{" "}
-                  <b className="text-fg">38 en lista de espera</b>: dos turnos
-                  más a las 19 h sumarían ~$ 1 M por mes.
+                  <b className="text-fg">
+                    {CLASS_STATS[0].waitlist} en lista de espera
+                  </b>
+                  : dos turnos más a las 19 h sumarían ~$&nbsp;1&nbsp;M por mes.
                 </>
               ),
               action: "Abrir agenda de clases",
@@ -329,7 +334,7 @@ export function IngresosReport({
               <span className="text-[28px] font-extrabold leading-none tracking-[-0.04em] text-fg tabular">
                 $ {p1(total12)} M
               </span>
-              <Delta value={69.2} />
+              <Delta value={60.5} />
               <span className="text-[12px] text-muted">
                 vs. 12 meses previos
               </span>
@@ -425,7 +430,7 @@ export function IngresosReport({
         <article className="panel stagger p-5 sm:p-6" style={s(8)}>
           <SectionTitle
             title="Motivos de baja"
-            hint={`${CHURN.explicit + CHURN.lapsed} socios sobre ${fmt(CHURN.base)} al inicio del mes`}
+            hint={`${CHURN.bajas} bajas sobre ${CHURN.due} cuotas vencidas en noviembre`}
           />
           <div className="mt-5">
             <ChurnReasons limit={6} />
@@ -477,7 +482,7 @@ function BranchPanel() {
 function AttendancePanel() {
   let peak = { d: 0, h: 0, v: 0 };
   ATTENDANCE.forEach((row, d) =>
-    row.forEach((v, h) => v > peak.v && (peak = { d, h, v })),
+    row.forEach((v, h) => v !== null && v > peak.v && (peak = { d, h, v })),
   );
   return (
     <article
@@ -487,7 +492,7 @@ function AttendancePanel() {
       <div className="min-w-0">
         <SectionTitle
           title="Asistencia por día y hora"
-          hint="Personas en sala · lunes a domingo, 06 a 23 h"
+          hint="Sede Centro · personas en sala por franja horaria"
         />
         <div className="mt-4">
           <AttendanceHeatmap />
@@ -498,19 +503,19 @@ function AttendancePanel() {
           {
             k: "Pico",
             v: `${DAYS[peak.d]} ${HOURS[peak.h]} h`,
-            d: `~${peak.v} personas · ${Math.round((peak.v / CAPACITY) * 100)}% de capacidad`,
+            d: `~${peak.v} personas · ${Math.round((peak.v / CAPACITY) * 100)}% del aforo`,
             cls: "text-lime",
           },
           {
             k: "Valle con potencial",
-            v: "Mar a Jue · 13–16 h",
-            d: "< 30% ocupación: ideal para plan Mediodía",
+            v: "Mar a Jue · 12 a 16 h",
+            d: "Hasta 30% del aforo: ideal para un plan Mediodía",
             cls: "text-amber",
           },
           {
             k: "Frecuencia media",
-            v: "2,7 visitas / sem",
-            d: "Socios con 3+ visitas renuevan un 97%",
+            v: "1,8 visitas / sem",
+            d: "Con 3 o más visitas renueva el 98%",
             cls: "text-violet",
           },
         ].map((x) => (
@@ -552,15 +557,19 @@ export function RetencionReport() {
         }
         headline={
           <>
-            La retención llegó a <b>94,1%</b>: perdimos 83 socios,{" "}
-            <span className="text-lime">11 menos</span> que en octubre.
+            La retención llegó a <b>94,1%</b>: {CHURN.bajas} bajas,{" "}
+            <span className="text-lime">
+              {CHURN.prevBajas - CHURN.bajas} menos
+            </span>{" "}
+            que en octubre.
           </>
         }
         sub={
           <>
-            Las cohortes de septiembre y octubre retienen mejor al tercer mes.{" "}
-            <b>Precio</b> y <b>falta de tiempo</b> explican la mitad de las
-            bajas pedidas.
+            De las <b>{CHURN.due} cuotas</b> que vencieron en noviembre
+            renovaron {CHURN.renewed}. Las altas de septiembre y octubre retienen
+            mejor en sus primeros meses; <b>precio</b> y <b>falta de tiempo</b>{" "}
+            explican la mitad de las bajas.
           </>
         }
         insight={{
@@ -568,7 +577,7 @@ export function RetencionReport() {
             <>
               Los <b>126 socios</b> que no vienen hace 14+ días tienen 4 veces
               más chance de darse de baja. Una campaña de reactivación hoy
-              protege ~<b>$ 4 M</b> por mes.
+              protege <b className="whitespace-nowrap">~$ 4 M</b> por mes.
             </>
           ),
           action: "Ver socios en riesgo",
@@ -584,7 +593,7 @@ export function RetencionReport() {
           {
             label: "Churn",
             value: `${p1(CHURN.rate)}%`,
-            foot: `${CHURN.explicit} bajas + ${CHURN.lapsed} sin renovar`,
+            foot: `${CHURN.bajas} bajas · ${CHURN.due} vencimientos`,
           },
           {
             label: "Congelados",
@@ -636,26 +645,26 @@ export function AsistenciaReport() {
       <ReportHero
         kicker={
           <span>
-            <span className="text-lime">Asistencia</span> · Últimas 4 semanas
+            <span className="text-lime">Asistencia</span> · Noviembre 2026
           </span>
         }
         headline={
           <>
-            <b>{fmt(week)}</b> check-ins por semana: el jueves a las 19 h es el
-            momento más lleno del gimnasio.
+            <b>{fmt(week)}</b> check-ins en 7 días. En Sede Centro, el jueves a
+            las 19 h es el momento más lleno.
           </>
         }
         sub={
           <>
-            La franja de 13 a 16 h queda por debajo del 30% de ocupación de
-            martes a jueves. Hay lugar para un plan <b>Mediodía</b>.
+            De martes a jueves, entre las 12 y las 16 h la sala no pasa del 30%
+            del aforo. Hay lugar para un plan <b>Mediodía</b>.
           </>
         }
         insight={{
           text: (
             <>
-              Quien viene <b>3 veces por semana o más</b> renueva en el 97% de
-              los casos; con 1 visita, solo el 81%.
+              Quien viene <b>3 veces por semana o más</b> renueva en el 98% de
+              los casos; con 1 visita o menos, el 90%.
             </>
           ),
           action: "Ver accesos",
@@ -664,7 +673,7 @@ export function AsistenciaReport() {
         photo={PHOTO.gymFloor(1100, 700)}
         kpis={[
           {
-            label: "Check-ins semanales",
+            label: "Check-ins · 7 días",
             value: fmt(week),
             foot: withDelta(7.4, "vs. semana previa"),
           },
@@ -675,13 +684,13 @@ export function AsistenciaReport() {
           },
           {
             label: "Visitas por socio",
-            value: "2,7 / sem",
+            value: `${p1(Math.round((week / MEMBERS_ACTIVE) * 10) / 10)} / sem`,
             foot: withDelta(3.8, "vs. octubre"),
           },
           {
             label: "Sin venir 14+ días",
             value: "126",
-            foot: `${p1((126 / MEMBERS_ACTIVE) * 100)}% del padrón · riesgo de baja`,
+            foot: `${p1((126 / MEMBERS_ACTIVE) * 100)}% del padrón, en riesgo`,
           },
         ]}
       />
@@ -788,21 +797,21 @@ export function ClasesReport() {
         }
         headline={
           <>
-            Las clases se llenan al <b>84%</b>: Pilates y CrossTraining ya no
-            alcanzan para la demanda.
+            Las clases se llenan al <b>{CLASS_OCCUPANCY}%</b>: CrossTraining y
+            Spinning ya no alcanzan para la demanda.
           </>
         }
         sub={
           <>
-            112 personas en lista de espera este mes. Yoga queda al 58%:
-            conviene mover el turno de las 07 h a las 19 h.
+            {CLASS_WAITLIST} personas en lista de espera este mes. Yoga queda al
+            66%: conviene pasar el turno del jueves 13 h a la franja de 19 h.
           </>
         }
         insight={{
           text: (
             <>
-              Con <b>un Reformer más</b> y dos turnos extra de Cross a las 19 h
-              liberás 82 lugares de espera por semana.
+              Dos turnos de <b>CrossTraining</b> y uno de <b>Spinning</b> entre
+              las 18 y las 20 h absorben 3 de cada 4 personas en espera.
             </>
           ),
           action: "Abrir agenda",
@@ -812,23 +821,23 @@ export function ClasesReport() {
         kpis={[
           {
             label: "Ocupación media",
-            value: "84%",
+            value: `${CLASS_OCCUPANCY}%`,
             foot: withDelta(3.1, "vs. octubre"),
           },
           {
             label: "Clases dictadas",
-            value: "360",
+            value: fmt(CLASS_SESSIONS),
             foot: "6 coaches · 5 disciplinas",
           },
           {
             label: "Lista de espera",
-            value: "112",
-            foot: "Pilates 44 · Cross 38",
+            value: fmt(CLASS_WAITLIST),
+            foot: `Cross ${CLASS_STATS[0].waitlist} · Spinning ${CLASS_STATS[1].waitlist}`,
           },
           {
             label: "Asistencia a reservas",
             value: "89%",
-            foot: withDelta(3.1, "11% no se presenta"),
+            foot: withDelta(3.1, "vs. octubre"),
           },
         ]}
       />
@@ -869,7 +878,7 @@ export function ClasesReport() {
                   <b className="text-[14px] font-extrabold text-fg">
                     {c.occupancy}%
                   </b>
-                  <span className="hidden sm:inline">{c.sessions} clases</span>
+                  <span className="hidden whitespace-nowrap sm:inline">{c.sessions} clases</span>
                   {c.waitlist > 0 ? (
                     <Pill tone="amber" className="hidden sm:inline-flex">
                       {c.waitlist} en espera
@@ -918,7 +927,7 @@ export function VentasReport() {
           text: (
             <>
               Hay <b>23 prospectos</b> en negociación sin contacto hace más de 3
-              días: son ~$ 720 mil por mes si cerrás la mitad.
+              días: son ~$&nbsp;720&nbsp;mil por mes si cerrás la mitad.
             </>
           ),
           action: "Abrir CRM",

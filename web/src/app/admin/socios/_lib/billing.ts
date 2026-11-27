@@ -7,7 +7,7 @@ export type LedgerRow = {
   id: string;
   date: string; // dd/mm
   sort: number; // yyyymmddhhmm
-  kind: "cargo" | "pago" | "recargo" | "rechazo" | "licencia" | "programado";
+  kind: "cargo" | "pago" | "rechazo" | "licencia" | "programado";
   title: string;
   detail: string;
   debit: number;
@@ -55,8 +55,6 @@ export function getBilling(p: Profile) {
 
   const status = m.status;
   if (status === "vencido") {
-    const due = p.dueLabel; // "16 nov"
-    rows.push({ id: "rec", date: "23/11", sort: 2026_11_23_0900, kind: "recargo", title: "Recargo por mora", detail: `7 días de atraso desde el ${due}`, debit: p.debt - (m.amount || 0), credit: 0 });
     const rejected = MOVEMENTS.find((mv) => mv.who === m.name && mv.status === "rechazado");
     if (rejected) {
       rows.push({
@@ -85,7 +83,7 @@ export function getBilling(p: Profile) {
   const balance = bal;
 
   /* ── Próximo débito ── */
-  const amount = m.amount || 42000;
+  const amount = p.price;
   const pending = p.payments.find((x) => x.status === "pendiente");
   const next =
     status === "congelado"

@@ -141,14 +141,14 @@ export const BY_CONCEPT = [
   {
     key: "pt",
     label: "Personal trainer y clases",
-    amount: 2_890_000,
+    amount: 3_094_000,
     color: "#9D84FF",
   },
-  { key: "tienda", label: "Tienda y bar", amount: 2_400_000, color: "#57D5F2" },
+  { key: "tienda", label: "Tienda y bar", amount: 2_700_000, color: "#57D5F2" },
   {
     key: "matriculas",
     label: "Matrículas (112 altas)",
-    amount: 2_184_000,
+    amount: 112 * 15_000, // matrícula de $ 15.000, como en Configuración y Caja
     color: "#FFBE55",
   },
 ];
@@ -237,12 +237,15 @@ export const COHORTS: { label: string; size: number; values: number[] }[] = [
 ];
 
 /* ── Bajas ────────────────────────────────────────────────────── */
-/** 44 bajas pedidas + 39 que no renovaron = 83 → 5,9% de 1.414 socios al inicio (retención 94,1%). */
+/** Retención = renovación de cuotas: de las 747 que vencieron en noviembre renovaron 703 (94,1%)
+ *  y hubo 44 bajas (5,9%). 1.414 socios al inicio + 112 altas − 44 bajas = 1.482 (+68 netos).
+ *  Octubre: 53 bajas sobre 803 vencimientos (6,6%). */
 export const CHURN = {
-  explicit: 44,
-  lapsed: 39,
-  base: 1414,
+  bajas: 44,
+  due: 747,
+  renewed: 703,
   rate: 5.9,
+  prevBajas: 53,
   prevRate: 6.6,
 };
 export const CHURN_REASONS = [
@@ -296,13 +299,20 @@ export const CHURN_TICKET = 31_500;
 /* ── Asistencia (día × hora) ──────────────────────────────────── */
 export const DAYS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
 export const HOURS = HOURLY.map((_, i) => 6 + i); // 06 a 23 h
+/** Aforo de Sede Centro (el "86 / 140" del menú lateral y del dashboard). */
 export const CAPACITY = 140;
-/** Promedio de personas en sala por franja: curva horaria × peso del día (del dashboard), con matices de fin de semana. */
-export const ATTENDANCE: number[][] = (() => {
+/** Horario de Sede Centro, como en Configuración: sábados 08 a 20 h, domingos 09 a 14 h. */
+const OPEN: [number, number][] = [
+  [6, 23], [6, 23], [6, 23], [6, 23], [6, 23], [8, 20], [9, 14],
+];
+/** Promedio de personas en sala por franja en Sede Centro: curva horaria × peso del día (del dashboard),
+ *  con matices de fin de semana. `null` = sede cerrada. */
+export const ATTENDANCE: (number | null)[][] = (() => {
   const maxDay = Math.max(...CHECKINS_WEEK.map((d) => d.hoy));
   return CHECKINS_WEEK.map((d, di) => {
     const w = d.hoy / maxDay;
     return HOURLY.map((_, hi) => {
+      if (6 + hi < OPEN[di][0] || 6 + hi >= OPEN[di][1]) return null;
       // media móvil de una hora: el pico cae a las 19 h, como anticipa el dashboard
       const h = (HOURLY[hi] + (HOURLY[hi + 1] ?? HOURLY[hi])) / 2;
       let v = h;
@@ -314,16 +324,18 @@ export const ATTENDANCE: number[][] = (() => {
     });
   });
 })();
-/** Visitas semanales por socio (promedio 2,7). */
+/** Visitas semanales por socio: promedio 1,8 (2.678 check-ins / 1.482 socios).
+ *  La renovación ponderada por frecuencia da el 94,1% de retención. */
 export const FREQUENCY = [
-  { label: "1 vez", share: 14, renew: 81, color: "#4F5C6E" },
-  { label: "2 veces", share: 27, renew: 91, color: "#57D5F2" },
-  { label: "3 veces", share: 33, renew: 96, color: "#9D84FF" },
-  { label: "4 o más", share: 26, renew: 98, color: "#B5F54A" },
+  { label: "1 o menos", share: 42, renew: 90, color: "#4F5C6E" },
+  { label: "2 veces", share: 29, renew: 96, color: "#57D5F2" },
+  { label: "3 veces", share: 19, renew: 98, color: "#9D84FF" },
+  { label: "4 o más", share: 10, renew: 99, color: "#B5F54A" },
 ];
 
 /* ── Sedes ────────────────────────────────────────────────────── */
-/** Suman $ 46.712.300 · 1.482 socios · 112 altas · 44 bajas. Deuda: 164 socios (11,1%), como en Caja. */
+/** Suman $ 46.712.300 · 1.482 socios · 112 altas · 44 bajas.
+ *  Deuda: 66 + 57 + 41 = 164 socios (11,1%), como en Caja. */
 export const BRANCH_ROWS = [
   {
     name: "Sede Centro",
@@ -364,19 +376,27 @@ export const BRANCH_ROWS = [
     bajas: 11,
     occupancy: 64,
     ticket: 32_100,
-    debt: 13.5,
+    debt: 13.1,
     photo: "classRopes" as const,
   },
 ];
 
-/* ── Clases (suman 360 clases y 112 en espera; ocupación media 84%) ── */
+/* ── Clases de las 3 sedes, del 1 al 25 de noviembre. Mismo orden que la agenda de Clases:
+ *  Cross y Spinning se llenan, Yoga queda abajo. Suman 360 clases y 104 en espera. ── */
 export const CLASS_STATS = [
-  { name: "CrossTraining", occupancy: 91, sessions: 96, waitlist: 38 },
-  { name: "Spinning", occupancy: 84, sessions: 72, waitlist: 21 },
-  { name: "Funcional", occupancy: 79, sessions: 88, waitlist: 9 },
-  { name: "Pilates", occupancy: 96, sessions: 64, waitlist: 44 },
-  { name: "Yoga", occupancy: 58, sessions: 40, waitlist: 0 },
+  { name: "CrossTraining", occupancy: 91, sessions: 96, waitlist: 44 },
+  { name: "Spinning", occupancy: 87, sessions: 72, waitlist: 36 },
+  { name: "Pilates", occupancy: 81, sessions: 64, waitlist: 18 },
+  { name: "Funcional", occupancy: 76, sessions: 88, waitlist: 6 },
+  { name: "Yoga", occupancy: 66, sessions: 40, waitlist: 0 },
 ] as const;
+/** Ocupación media ponderada por clases dictadas: 82%. */
+export const CLASS_OCCUPANCY = Math.round(
+  CLASS_STATS.reduce((a, c) => a + c.occupancy * c.sessions, 0) /
+    CLASS_STATS.reduce((a, c) => a + c.sessions, 0),
+);
+export const CLASS_SESSIONS = CLASS_STATS.reduce((a, c) => a + c.sessions, 0); // 360
+export const CLASS_WAITLIST = CLASS_STATS.reduce((a, c) => a + c.waitlist, 0); // 104
 
 /* ── Ventas: fuentes de prospectos (suman los 186 nuevos y 47 ganados del embudo) ── */
 export const LEAD_SOURCES = [

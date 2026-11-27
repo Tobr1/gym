@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Bell, ChevronRight, Clock, Flame, MapPin, QrCode, Repeat, ShieldCheck, X } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { Avatar, AvatarStack } from "@/components/ui/primitives";
+import { CLASSES as AGENDA, COACH, NOW, type Discipline } from "@/app/admin/clases/_components/data";
 import { PHOTO } from "@/lib/photos";
 import { cn } from "@/lib/utils";
 
@@ -27,11 +28,25 @@ const WORKOUTS = [
   { title: "Core & movilidad", cat: "Movilidad", desc: "Cierre de sesión", img: PHOTO.yoga, min: 10, reps: "3 × 30 s" },
 ];
 
-const CLASSES = [
-  { name: "CrossTraining", time: "18:00", coach: 3, spots: "4 lugares", img: PHOTO.ropes, tone: "lime" },
-  { name: "Spinning Power", time: "19:30", coach: 4, spots: "Completa · lista de espera", img: PHOTO.runners, tone: "amber" },
-  { name: "Pilates Reformer", time: "20:15", coach: 9, spots: "2 lugares", img: PHOTO.yoga, tone: "cyan" },
-];
+// Las clases de hoy salen de la misma agenda que administra el gimnasio (/admin/clases y /app/clases).
+const CLASS_PHOTO: Record<Discipline, (w?: number, h?: number) => string> = {
+  CrossTraining: PHOTO.classRopes,
+  Funcional: PHOTO.ropes,
+  Pilates: PHOTO.focusWoman,
+  Spinning: PHOTO.runners,
+  Yoga: PHOTO.yoga,
+};
+const hhmm = (min: number) => `${String(Math.floor(min / 60)).padStart(2, "0")}:${String(min % 60).padStart(2, "0")}`;
+const CLASSES = AGENDA.filter((c) => c.day === NOW.day && c.start >= 18 * 60).map((c) => {
+  const free = c.cap - c.enrolled;
+  return {
+    name: `${c.discipline} ${c.title}`,
+    time: hhmm(c.start),
+    coach: COACH[c.coach].face,
+    spots: free > 0 ? `${free} ${free === 1 ? "lugar" : "lugares"}` : "Completa · lista de espera",
+    img: CLASS_PHOTO[c.discipline],
+  };
+});
 
 const s = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
@@ -261,7 +276,7 @@ export function MemberHome() {
           <p className="text-[12px] font-extrabold uppercase tracking-[0.16em] text-lime">Acceso válido</p>
           <p className="mt-1 text-[22px] font-extrabold text-fg">Martín Ibáñez</p>
           <div className="relative mx-auto mt-5 w-fit rounded-[28px] bg-white p-5 shadow-[0_0_80px_-10px_rgb(181_245_74/0.6)]">
-            <QRCodeSVG value="pulso:member:1043:2026-11-25" size={196} fgColor="#0B1018" />
+            <QRCodeSVG value="pulso:member:1060:2026-11-25" size={196} fgColor="#0B1018" />
           </div>
           <p className="mt-4 text-[13px] text-muted">Acercalo al lector del molinete · se renueva cada 30 s</p>
         </div>

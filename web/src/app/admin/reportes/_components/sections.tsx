@@ -234,12 +234,12 @@ export function ChurnReasons({ limit }: { limit?: number }) {
         </div>
         <div className="whitespace-nowrap text-right text-[11.5px] font-semibold leading-relaxed text-muted">
           <p>
-            <b className="font-extrabold text-fg tabular">{CHURN.explicit}</b>{" "}
-            bajas pedidas
+            <b className="font-extrabold text-fg tabular">{CHURN.renewed}</b>{" "}
+            renovaron
           </p>
           <p>
-            <b className="font-extrabold text-fg tabular">{CHURN.lapsed}</b> no
-            renovaron
+            <b className="font-extrabold text-fg tabular">{CHURN.bajas}</b> se
+            dieron de baja
           </p>
         </div>
       </div>

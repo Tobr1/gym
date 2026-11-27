@@ -239,7 +239,7 @@ export function getTenantDetail(slug: string): TenantDetail | null {
     ? [
         { who: "Carolina Vidal", role: "Admin · Sede Centro", action: "registró 12 cobros en caja", time: "hoy 08:49", kind: "billing" },
         { who: "Sistema", role: "Accesos", action: "lector QR de Sede Norte sin conexión", time: "hoy 08:31", kind: "access" },
-        { who: "Martín Echeverría", role: "Dueño", action: "publicó la rutina «Hipertrofia · Bloque 3»", time: "hoy 07:58", kind: "config" },
+        { who: "Nico Paredes", role: "Coach · Sede Centro", action: "publicó la rutina «Full Power · PPL»", time: "hoy 07:58", kind: "config" },
         { who: "Ana Bustos", role: "Soporte Pulso", action: "tomó el ticket #SUP-4821", time: "hoy 07:40", kind: "support" },
         { who: "Martín Echeverría", role: "Dueño", action: "inició sesión desde un dispositivo nuevo", time: "ayer 22:14", kind: "security" },
         { who: "Sistema", role: "Facturación", action: "cobró la factura de noviembre · $ 239.700", time: "dom 1 nov", kind: "billing" },

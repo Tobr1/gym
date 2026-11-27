@@ -33,7 +33,7 @@ import {
 } from "../_data";
 import { Check2, Field, MoneyInput, SectionHead, Segmented, SettingRow, Sheet, TextInput, Toggle, s, useTouch } from "./controls";
 
-const BILLING_LABEL: Record<Billing, string> = { mensual: "Mensual", trimestral: "Trimestral −10 %", anual: "Anual" };
+const BILLING_LABEL: Record<Billing, string> = { mensual: "Mensual", trimestral: "Trimestral −10%", anual: "Anual" };
 const freq = (n: number) => (n === 0 ? "Ilimitado" : `${n}x por semana`);
 const NEW_COLORS = ["var(--color-violet)", "var(--color-cyan)", "var(--color-amber)", "var(--color-emerald)"];
 
@@ -95,7 +95,7 @@ export function PlansSection() {
         text={
           <>
             {plans.length} planes · <span className="font-semibold text-fg-2 tabular">{fmt(TOTAL_MEMBERS)}</span> socios activos ·{" "}
-            <span className="font-semibold text-fg-2 tabular">{compactMoney(revenue)}</span> en cuotas por mes
+            <span className="font-semibold text-fg-2 tabular">{compactMoney(revenue)}</span> cobrados en cuotas en noviembre
           </>
         }
       >
@@ -109,7 +109,7 @@ export function PlansSection() {
         <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
           <p className="text-[13px] font-bold text-fg">Cómo se reparten tus socios</p>
           <p className="text-[12px] text-muted">
-            Último aumento <span className="font-semibold text-fg-2">1 sep · +8 %</span> · sin bajas atribuidas
+            Último aumento <span className="font-semibold text-fg-2">1 sep · +8%</span> · retención 94,1%
           </p>
         </div>
         <div className="mt-3 flex h-3 gap-[3px] overflow-hidden rounded-full">
@@ -135,7 +135,7 @@ export function PlansSection() {
                 </p>
                 <p className="mt-0.5 text-[14px] font-extrabold text-fg tabular">
                   {fmt(p.members)}
-                  <span className="ml-1 text-[11px] font-semibold text-faint">{Math.round((p.members / TOTAL_MEMBERS) * 100)} %</span>
+                  <span className="ml-1 text-[11px] font-semibold text-faint">{Math.round((p.members / TOTAL_MEMBERS) * 100)}%</span>
                 </p>
               </li>
             ))}
@@ -359,10 +359,10 @@ function PlanEditor({ initial, isNew, onSave, onCancel }: { initial: Plan; isNew
             !isNew && delta !== 0 ? (
               <span className={delta > 0 ? "text-amber" : "text-lime"}>
                 {delta > 0 ? "+" : ""}
-                {delta.toLocaleString("es-AR", { maximumFractionDigits: 1 })} % sobre el precio actual · aviso automático a {fmt(initial.members)} socios
+                {delta.toLocaleString("es-AR", { maximumFractionDigits: 1 })}% sobre el precio actual · aviso automático a {fmt(initial.members)} socios
               </span>
             ) : (
-              <>Trimestral: {money(Math.round(p.price * 3 * 0.9))} con −10 %</>
+              <>Trimestral: {money(Math.round(p.price * 3 * 0.9))} con −10%</>
             )
           }
         >
@@ -505,7 +505,7 @@ function PriceIncrease({ plans }: { plans: Plan[] }) {
             <Segmented
               value={pct}
               onChange={change(setPct)}
-              options={PCTS.map((v) => ({ value: v as number, label: `+${v} %` }))}
+              options={PCTS.map((v) => ({ value: v as number, label: `+${v}%` }))}
             />
           </Field>
 
@@ -645,7 +645,7 @@ function PriceIncrease({ plans }: { plans: Plan[] }) {
                   touch("planes.aumento");
                 }}
               >
-                <CalendarClock className="size-4" /> Programar +{pct} % · {when.label}
+                <CalendarClock className="size-4" /> Programar +{pct}% · {when.label}
               </Button>
             )}
           </div>

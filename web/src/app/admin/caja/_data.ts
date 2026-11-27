@@ -77,8 +77,8 @@ export const MONTHLY = [
 export const AGING = [
   { key: "ok", label: "Al día", range: "Sin deuda", members: 1318, amount: 0, color: "#B5F54A", share: 88.9, delta: 1.4 },
   { key: "b1", label: "1–7 días", range: "Aviso automático", members: 74, amount: 3_212_600, color: "#FFBE55", share: 5.0, delta: -0.6 },
-  { key: "b2", label: "8–30 días", range: "Gestión activa", members: 61, amount: 2_689_400, color: "#FF8A4C", share: 4.1, delta: -0.3 },
-  { key: "b3", label: "+30 días", range: "Acceso bloqueado", members: 29, amount: 1_524_300, color: "#FF5F7E", share: 2.0, delta: 0.2 },
+  { key: "b2", label: "8–30 días", range: "Acceso bloqueado", members: 61, amount: 2_689_400, color: "#FF8A4C", share: 4.1, delta: -0.3 },
+  { key: "b3", label: "+30 días", range: "Baja en revisión", members: 29, amount: 1_524_300, color: "#FF5F7E", share: 2.0, delta: 0.2 },
 ];
 
 export type Debtor = {

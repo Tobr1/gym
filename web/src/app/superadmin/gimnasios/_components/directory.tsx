@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AlertTriangle,
@@ -41,7 +42,11 @@ import { HealthGauge, PlanTag, TenantLogo, tenantCover } from "./bits";
 
 const s = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
-type Segment = "all" | "active" | "trial" | "risk" | "delinquent";
+export type Segment = "all" | "active" | "trial" | "risk" | "delinquent";
+
+/** Segmentos que se pueden abrir por URL (?segmento=morosos), p. ej. desde Suscripciones. */
+export const SEGMENT_PARAM: Record<string, Segment> = { activos: "active", prueba: "trial", riesgo: "risk", morosos: "delinquent" };
+
 type SortKey = "mrr" | "health" | "socios" | "lastSeen" | "name";
 
 const inSegment: Record<Segment, (t: TenantRow) => boolean> = {
@@ -53,8 +58,15 @@ const inSegment: Record<Segment, (t: TenantRow) => boolean> = {
 };
 
 
-export function TenantDirectory({ rows }: { rows: TenantRow[] }) {
-  const [segment, setSegment] = useState<Segment>("all");
+/** Directorio con el segmento inicial tomado de la URL. Va dentro de <Suspense> (useSearchParams). */
+export function TenantDirectoryFromUrl({ rows }: { rows: TenantRow[] }) {
+  const param = useSearchParams().get("segmento") ?? "";
+  const initial = SEGMENT_PARAM[param] ?? "all";
+  return <TenantDirectory key={initial} rows={rows} initialSegment={initial} />;
+}
+
+export function TenantDirectory({ rows, initialSegment = "all" }: { rows: TenantRow[]; initialSegment?: Segment }) {
+  const [segment, setSegment] = useState<Segment>(initialSegment);
   const [q, setQ] = useState("");
   const [plan, setPlan] = useState<TenantPlan | null>(null);
   const [country, setCountry] = useState<Country | null>(null);
@@ -107,7 +119,7 @@ export function TenantDirectory({ rows }: { rows: TenantRow[] }) {
           tone="lime"
           label="Activos"
           value={PLATFORM.active}
-          foot={<><b className="text-lime">+11</b> este mes · 512 sedes</>}
+          foot={<><b className="text-lime">+11</b> este mes · {fmt(PLATFORM.sedes)} sedes</>}
           viz={<Sparkline data={[281, 288, 292, 297, 301, 306, 309, 315, 318, 322, 326]} height={30} fill={false} className="opacity-80" />}
         />
         <SegmentCard
@@ -118,7 +130,7 @@ export function TenantDirectory({ rows }: { rows: TenantRow[] }) {
           tone="amber"
           label="En prueba"
           value={PLATFORM.trials}
-          foot={<><b className="text-amber">{PLATFORM.trialsThisWeek}</b> terminan esta semana</>}
+          foot={<><b className="text-amber">{PLATFORM.trialsThisWeek}</b> terminan en 7 días</>}
           viz={<TrialDots />}
         />
         <SegmentCard

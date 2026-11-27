@@ -78,7 +78,7 @@ function BalanceCard({ p, b }: { p: Profile; b: B }) {
           <p className="mt-2 text-[12.5px] leading-snug text-fg-2">
             {debt ? (
               <>
-                Cuota de noviembre + recargo · vencida el <b className="text-fg">{p.dueLabel}</b>
+                Cuota de noviembre · vencida el <b className="text-fg">{p.dueLabel}</b>
               </>
             ) : (
               <>
@@ -146,7 +146,7 @@ function BalanceCard({ p, b }: { p: Profile; b: B }) {
           </div>
           <dl className="mt-4 grid grid-cols-3 gap-2 border-t border-line pt-3">
             {[
-              { l: "Cuota actual", v: money(p.member.amount || 42000) },
+              { l: "Cuota actual", v: money(p.price) },
               { l: "Ticket prom.", v: money(b.avgTicket) },
               { l: "Puntualidad", v: `${b.onTime}%`, c: b.onTime === 100 ? "text-lime" : b.onTime < 90 ? "text-amber" : "text-fg" },
             ].map((k) => (
@@ -292,7 +292,6 @@ function MethodCard({ p }: { p: Profile }) {
 const ROW_META: Record<LedgerRow["kind"], { icon: typeof Check; cls: string }> = {
   cargo: { icon: ArrowUpRight, cls: "bg-white/[0.05] text-fg-2" },
   pago: { icon: ArrowDownLeft, cls: "bg-lime/12 text-lime" },
-  recargo: { icon: TriangleAlert, cls: "bg-amber/12 text-amber" },
   rechazo: { icon: CircleSlash, cls: "bg-rose/12 text-rose" },
   licencia: { icon: Snowflake, cls: "bg-cyan/12 text-cyan" },
   programado: { icon: CalendarClock, cls: "bg-violet/12 text-violet" },
@@ -478,7 +477,7 @@ function Invoices({ b }: { b: B }) {
 function PlanHistory({ p, b }: { p: Profile; b: B }) {
   return (
     <article className="panel stagger p-5 sm:p-6" style={s(7)}>
-      <SectionTitle title="Historial de planes" hint={`Socio/a desde ${p.member.since}`} />
+      <SectionTitle title="Historial de planes" hint={`${p.female ? "Socia" : "Socio"} desde ${p.member.since}`} />
       <ol className="relative mt-5">
         <span className="absolute bottom-4 left-[15px] top-4 w-px bg-gradient-to-b from-lime/60 via-line-strong to-transparent" />
         {b.plans.map((x) => (
@@ -511,7 +510,7 @@ function PlanHistory({ p, b }: { p: Profile; b: B }) {
           </span>
           <div className="min-w-0 flex-1">
             <p className="text-[13px] font-bold text-fg-2">Alta · matrícula bonificada</p>
-            <p className="text-[11.5px] text-muted">{p.member.since} · Referido/a por un socio</p>
+            <p className="text-[11.5px] text-muted">{p.member.since} · {p.female ? "Referida" : "Referido"} por un socio</p>
           </div>
         </li>
       </ol>

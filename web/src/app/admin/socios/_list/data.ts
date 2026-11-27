@@ -2,15 +2,9 @@
    los deudores de Caja y las altas ganadas en CRM para que nombres y montos coincidan en todo el producto. */
 import { BRANCHES, MEMBERS, type MemberStatus } from "@/lib/mock";
 import { DEBTORS } from "../../caja/_data";
-import { getProfile, NOW_MIN, TODAY } from "../_lib/profile";
+import { getProfile, NOW_MIN, PLAN_PRICE, TODAY } from "../_lib/profile";
 
-export const PLAN_PRICE: Record<string, number> = {
-  "Pase Libre": 48_900,
-  "Musculación 3x": 36_500,
-  CrossTraining: 44_500,
-  "Funcional + Pilates": 42_000,
-  "Pilates Reformer": 52_000,
-};
+export { PLAN_PRICE };
 export const PLANS = Object.keys(PLAN_PRICE);
 export const PLAN_COLOR: Record<string, string> = {
   "Pase Libre": "var(--color-lime)",
@@ -108,17 +102,17 @@ const fromProfiles: Row[] = MEMBERS.map((m) => {
     dni: p.dni,
     auto: p.payMethod.auto,
     hasProfile: true,
-    note: m.status === "congelado" ? "Vuelve el 05 dic" : undefined,
+    note: m.status === "congelado" ? "Vuelve el 15 dic" : undefined,
   };
 });
 
 /* ── Deudores de Caja (mismos montos y días) ──────────────── */
 const DEBTOR_EXTRA: Record<string, { branch: string; since: string; last: string; att: number; prev: number; phone: string; dni: string }> = {
   "1101": { branch: "Sede Norte", since: "feb 2024", last: "hace 31 d", att: 0, prev: 46, phone: "+54 9 11 5832-4410", dni: "35.218.904" },
-  "1093": { branch: "Sede Centro", since: "jun 2024", last: "ayer", att: 61, prev: 70, phone: "+54 9 11 6120-3381", dni: "38.402.117" },
+  "1093": { branch: "Sede Centro", since: "jun 2024", last: "hace 5 d", att: 61, prev: 70, phone: "+54 9 11 6120-3381", dni: "38.402.117" },
   "1112": { branch: "Sede Parque", since: "mar 2025", last: "hace 12 d", att: 22, prev: 68, phone: "+54 9 11 4471-9025", dni: "40.119.562" },
   "1087": { branch: "Sede Centro", since: "dic 2023", last: "hace 19 d", att: 9, prev: 57, phone: "+54 9 11 3398-1270", dni: "33.871.640" },
-  "1118": { branch: "Sede Norte", since: "ago 2025", last: "08:22", att: 72, prev: 75, phone: "+54 9 11 7712-0846", dni: "42.560.338" },
+  "1118": { branch: "Sede Norte", since: "ago 2025", last: "hace 3 d", att: 72, prev: 75, phone: "+54 9 11 7712-0846", dni: "42.560.338" },
 };
 
 const fromDebtors: Row[] = DEBTORS.filter((d) => DEBTOR_EXTRA[d.id]).map((d) => {
@@ -189,7 +183,11 @@ export { BRANCHES };
 /* ── Segmentos (cifras del padrón completo, iguales al Dashboard y a Caja) ── */
 export type SegmentKey = "activos" | "por-vencer" | "vencidos" | "congelados" | "nuevos";
 
-export const PADRON_TOTAL = 1_501; // 1.482 activos + 19 congelados
+/* Padrón = activos + congelados. Por vencer y vencidos son subconjuntos de los activos
+   (Caja: 1.318 al día + 164 con deuda = 1.482; Reportes: deuda 164 socios = 11,1%). */
+export const ACTIVE_TOTAL = 1_482;
+export const FROZEN_TOTAL = 19;
+export const PADRON_TOTAL = ACTIVE_TOTAL + FROZEN_TOTAL; // 1.501
 
 export const SEGMENTS: {
   key: SegmentKey;
@@ -199,10 +197,10 @@ export const SEGMENTS: {
   color: string;
   spark: number[];
 }[] = [
-  { key: "activos", label: "Activos", count: 1_482, hint: "+68 netos · retención 94,1%", color: "var(--color-lime)", spark: [1371, 1388, 1402, 1396, 1421, 1414, 1440, 1458, 1482] },
-  { key: "por-vencer", label: "Por vencer", count: 12, hint: "Esta semana · $ 518.400", color: "var(--color-amber)", spark: [9, 14, 11, 16, 13, 10, 12] },
-  { key: "vencidos", label: "Vencidos", count: 164, hint: "$ 7,4 M pendientes", color: "var(--color-rose)", spark: [181, 176, 179, 172, 170, 168, 164] },
-  { key: "congelados", label: "Congelados", count: 19, hint: "4 vuelven en diciembre", color: "var(--color-cyan)", spark: [14, 15, 17, 16, 18, 21, 19] },
+  { key: "activos", label: "Activos", count: ACTIVE_TOTAL, hint: "+68 netos · retención 94,1%", color: "var(--color-lime)", spark: [1371, 1388, 1402, 1396, 1421, 1414, 1440, 1458, 1482] },
+  { key: "por-vencer", label: "Por vencer", count: 12, hint: "Activos · vencen esta semana · $ 518.400", color: "var(--color-amber)", spark: [9, 14, 11, 16, 13, 10, 12] },
+  { key: "vencidos", label: "Vencidos", count: 164, hint: "Activos con deuda · $ 7,4 M", color: "var(--color-rose)", spark: [181, 176, 179, 172, 170, 168, 164] },
+  { key: "congelados", label: "Congelados", count: FROZEN_TOTAL, hint: "Fuera de activos · 4 vuelven en dic", color: "var(--color-cyan)", spark: [14, 15, 17, 16, 18, 21, 19] },
   { key: "nuevos", label: "Nuevos este mes", count: 112, hint: "Noviembre · 47 desde CRM", color: "var(--color-violet)", spark: [61, 74, 70, 88, 93, 101, 112] },
 ];
 
