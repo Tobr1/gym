@@ -1,0 +1,155 @@
+1
+00:00:00,600 --> 00:00:05,979
+Esto es Pulso: una plataforma para gestionar gimnasios de punta a punta.
+
+2
+00:00:05,969 --> 00:00:08,116
+La idea es simple.
+
+3
+00:00:08,156 --> 00:00:11,647
+Que el dueño, el equipo de recepción y cada socio tengan
+
+4
+00:00:11,687 --> 00:00:14,800
+todo en un mismo lugar, con una experiencia que se
+
+5
+00:00:14,840 --> 00:00:18,142
+sienta tan cuidada como una app deportiva de primera.
+
+6
+00:00:19,140 --> 00:00:21,941
+Se entra desde un solo acceso.
+
+7
+00:00:21,931 --> 00:00:27,789
+Elegís si sos el gimnasio o si sos socio, y cada uno llega a su propia vista.
+
+8
+00:00:28,800 --> 00:00:32,769
+Del lado del gimnasio, el panel arranca con lo que importa hoy:
+
+9
+00:00:32,809 --> 00:00:37,733
+cuánto se facturó en el mes, cuántos socios activos hay, quién está entrenando
+
+10
+00:00:37,773 --> 00:00:42,252
+en este momento y la asistencia de la semana comparada con la anterior.
+
+11
+00:00:43,210 --> 00:00:47,938
+En Socios está el padrón completo, con el estado de cada cuota y una alerta
+
+12
+00:00:47,978 --> 00:00:52,834
+temprana: los socios que están dejando de venir, antes de que se den de baja.
+
+13
+00:00:53,780 --> 00:00:58,168
+Cada socio tiene su ficha integral: pagos, asistencia,
+
+14
+00:00:58,208 --> 00:01:01,776
+rutina, evolución física y notas del equipo.
+
+15
+00:01:01,766 --> 00:01:03,939
+Todo en un mismo lugar.
+
+16
+00:01:04,950 --> 00:01:08,792
+El control de acceso funciona con código QR.
+
+17
+00:01:08,782 --> 00:01:12,572
+Recepción ve en vivo quién entra, y si alguien tiene
+
+18
+00:01:12,612 --> 00:01:16,034
+la cuota vencida, el molinete lo frena y avisa.
+
+19
+00:01:17,030 --> 00:01:20,565
+La agenda de clases muestra la semana completa,
+
+20
+00:01:20,605 --> 00:01:23,607
+con cupos, profesores y lista de espera.
+
+21
+00:01:24,550 --> 00:01:28,055
+Y los entrenadores arman rutinas con una biblioteca
+
+22
+00:01:28,095 --> 00:01:31,114
+de ejercicios, para asignarlas a cada socio.
+
+23
+00:01:32,070 --> 00:01:36,989
+Caja y cobranzas ordena la plata: los cobros del día, los medios de pago
+
+24
+00:01:37,029 --> 00:01:41,811
+y la deuda separada por antigüedad, para saber a quién llamar primero.
+
+25
+00:01:42,760 --> 00:01:45,008
+El CRM sigue a cada interesado,
+
+26
+00:01:45,048 --> 00:01:49,141
+desde el primer mensaje hasta que se convierte en socio.
+
+27
+00:01:50,090 --> 00:01:54,980
+Y en Reportes, el negocio explicado en números: ingresos, retención,
+
+28
+00:01:55,020 --> 00:02:01,432
+asistencia y ventas, con una lectura automática de qué está pasando y qué conviene hacer.
+
+29
+00:02:02,390 --> 00:02:06,961
+Del otro lado está el socio, con una app que se siente nativa.
+
+30
+00:02:06,951 --> 00:02:10,279
+Ve su racha, cuántos días le quedan de cuota,
+
+31
+00:02:10,319 --> 00:02:14,320
+entra con su QR y tiene las clases del día a un toque.
+
+32
+00:02:15,310 --> 00:02:18,630
+Reserva su lugar, se anota en la lista de espera
+
+33
+00:02:18,670 --> 00:02:21,991
+y sigue su rutina paso a paso desde el teléfono.
+
+34
+00:02:22,950 --> 00:02:26,949
+Y por encima de todo está el centro de control de Pulso.
+
+35
+00:02:26,939 --> 00:02:30,838
+Desde acá se ven todos los gimnasios que usan la plataforma,
+
+36
+00:02:30,878 --> 00:02:34,581
+cuánto factura cada uno y cuáles están en riesgo de irse.
+
+37
+00:02:35,580 --> 00:02:37,533
+Eso es Pulso.
+
+38
+00:02:37,523 --> 00:02:41,061
+Gestión, acceso, cobranzas y la app del socio,
+
+39
+00:02:41,101 --> 00:02:45,883
+en una sola plataforma pensada para que los gimnasios crezcan.

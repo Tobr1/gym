@@ -1,0 +1,95 @@
+{
+  "titulo": "Pulso · presentación del proyecto",
+  "escenas": [
+    {
+      "id": "01-landing",
+      "ruta": "/",
+      "vista": "desktop",
+      "texto": "Esto es Pulso: una plataforma para gestionar gimnasios de punta a punta. La idea es simple. Que el dueño, el equipo de recepción y cada socio tengan todo en un mismo lugar, con una experiencia que se sienta tan cuidada como una app deportiva de primera."
+    },
+    {
+      "id": "02-login",
+      "ruta": "/login",
+      "vista": "desktop",
+      "texto": "Se entra desde un solo acceso. Elegís si sos el gimnasio o si sos socio, y cada uno llega a su propia vista."
+    },
+    {
+      "id": "03-dashboard",
+      "ruta": "/admin",
+      "vista": "desktop",
+      "texto": "Del lado del gimnasio, el panel arranca con lo que importa hoy: cuánto se facturó en el mes, cuántos socios activos hay, quién está entrenando en este momento y la asistencia de la semana comparada con la anterior."
+    },
+    {
+      "id": "04-socios",
+      "ruta": "/admin/socios",
+      "vista": "desktop",
+      "texto": "En Socios está el padrón completo, con el estado de cada cuota y una alerta temprana: los socios que están dejando de venir, antes de que se den de baja."
+    },
+    {
+      "id": "05-ficha",
+      "ruta": "/admin/socios/1042",
+      "vista": "desktop",
+      "texto": "Cada socio tiene su ficha integral: pagos, asistencia, rutina, evolución física y notas del equipo. Todo en un mismo lugar."
+    },
+    {
+      "id": "06-acceso",
+      "ruta": "/admin/acceso",
+      "vista": "desktop",
+      "texto": "El control de acceso funciona con código QR. Recepción ve en vivo quién entra, y si alguien tiene la cuota vencida, el molinete lo frena y avisa."
+    },
+    {
+      "id": "07-clases",
+      "ruta": "/admin/clases",
+      "vista": "desktop",
+      "texto": "La agenda de clases muestra la semana completa, con cupos, profesores y lista de espera."
+    },
+    {
+      "id": "08-rutinas",
+      "ruta": "/admin/rutinas",
+      "vista": "desktop",
+      "texto": "Y los entrenadores arman rutinas con una biblioteca de ejercicios, para asignarlas a cada socio."
+    },
+    {
+      "id": "09-caja",
+      "ruta": "/admin/caja",
+      "vista": "desktop",
+      "texto": "Caja y cobranzas ordena la plata: los cobros del día, los medios de pago y la deuda separada por antigüedad, para saber a quién llamar primero."
+    },
+    {
+      "id": "10-crm",
+      "ruta": "/admin/crm",
+      "vista": "desktop",
+      "texto": "El CRM sigue a cada interesado, desde el primer mensaje hasta que se convierte en socio."
+    },
+    {
+      "id": "11-reportes",
+      "ruta": "/admin/reportes",
+      "vista": "desktop",
+      "texto": "Y en Reportes, el negocio explicado en números: ingresos, retención, asistencia y ventas, con una lectura automática de qué está pasando y qué conviene hacer."
+    },
+    {
+      "id": "12-app",
+      "ruta": "/app",
+      "vista": "mobile",
+      "texto": "Del otro lado está el socio, con una app que se siente nativa. Ve su racha, cuántos días le quedan de cuota, entra con su QR y tiene las clases del día a un toque."
+    },
+    {
+      "id": "13-app-clases",
+      "ruta": "/app/clases",
+      "vista": "mobile",
+      "texto": "Reserva su lugar, se anota en la lista de espera y sigue su rutina paso a paso desde el teléfono."
+    },
+    {
+      "id": "14-superadmin",
+      "ruta": "/superadmin",
+      "vista": "desktop",
+      "texto": "Y por encima de todo está el centro de control de Pulso. Desde acá se ven todos los gimnasios que usan la plataforma, cuánto factura cada uno y cuáles están en riesgo de irse."
+    },
+    {
+      "id": "15-cierre",
+      "ruta": "/",
+      "vista": "desktop",
+      "texto": "Eso es Pulso. Gestión, acceso, cobranzas y la app del socio, en una sola plataforma pensada para que los gimnasios crezcan."
+    }
+  ]
+}

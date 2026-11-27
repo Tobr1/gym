@@ -1,0 +1,15 @@
+{
+  "name": "pulso-video",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "voz": "node voz.mjs",
+    "grabar": "node grabar.mjs",
+    "montar": "node montar.mjs"
+  },
+  "dependencies": {
+    "ffmpeg-static": "^5.3.0",
+    "msedge-tts": "^2.1.1",
+    "playwright-core": "^1.65.1"
+  }
+}
